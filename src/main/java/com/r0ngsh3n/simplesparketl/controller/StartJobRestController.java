@@ -27,12 +27,12 @@ public class StartJobRestController {
         SparkSession spark = SparkSession.builder()
                 .appName(jobName)
                 .master("local")
-                .config("some option", "some value")
-//                .enableHiveSupport()
+//                .config("some option", "some value")
+                .enableHiveSupport()
                 .getOrCreate();
 
         //set up sparkSession runtime arguments
-        spark.conf().set("spark.sql.shuffle.partitions", 6);
+        spark.conf().set("spark.sql.shuffle.partitions", 1);
         spark.conf().set("spark.executor.memory", "2g");
 
         Map<String, String> sparkConf = spark.conf().getAll();
@@ -42,6 +42,9 @@ public class StartJobRestController {
         rdr.option("numPartitions", 10);
         rdr.option("partitionColumn", "Country Code");
 //        java.util.Map<String, String> options = Splitter.on(",").withKeyValueSeparator(":").split("driver");
+//        for(String key: options.keySet()){
+//            System.out.println(String.format("key: s% :: value: s%", key, options.get(key)));
+//        }
 
         //JDBC connection properties
         final Properties connectionProperties = new Properties();

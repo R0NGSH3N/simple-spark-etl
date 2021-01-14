@@ -23,6 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.apache.spark:spark-core_2.11:2.4.4'
 	implementation 'org.apache.spark:spark-sql_2.11:2.4.4'
+	implementation 'org.apache.spark:spark-hive_2.11:2.4.4'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	//to fix "common-compiler" error: https://stackoverflow.com/questions/42352091/spark-sql-fails-with-java-lang-noclassdeffounderror-org-codehaus-commons-compil

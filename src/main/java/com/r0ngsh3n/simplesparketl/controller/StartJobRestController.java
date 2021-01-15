@@ -22,8 +22,8 @@ public class StartJobRestController {
     private static final String MYSQL_USERNAME = "root";
     private static final String MYSQL_PWD = "123";
 
-    @GetMapping("/startJob/{jobName}")
-    public void startJob(@PathVariable String jobName){
+    @GetMapping("/startJob/{jobName}/{partition}")
+    public void startJob(@PathVariable String jobName, @PathVariable int partition){
         SparkSession spark = SparkSession.builder()
                 .appName(jobName)
                 .master("local")
@@ -32,7 +32,7 @@ public class StartJobRestController {
                 .getOrCreate();
 
         //set up sparkSession runtime arguments
-        spark.conf().set("spark.sql.shuffle.partitions", 1);
+        spark.conf().set("spark.sql.shuffle.partitions", partition);
         spark.conf().set("spark.executor.memory", "2g");
 
         Map<String, String> sparkConf = spark.conf().getAll();
@@ -40,7 +40,7 @@ public class StartJobRestController {
         DataFrameReader rdr = spark.read();
         rdr.format("jdbc");
         rdr.option("numPartitions", 10);
-        rdr.option("partitionColumn", "Country Code");
+        rdr.option("partitionColumn", "Country_Code");
 //        java.util.Map<String, String> options = Splitter.on(",").withKeyValueSeparator(":").split("driver");
 //        for(String key: options.keySet()){
 //            System.out.println(String.format("key: s% :: value: s%", key, options.get(key)));
@@ -50,7 +50,7 @@ public class StartJobRestController {
         final Properties connectionProperties = new Properties();
         connectionProperties.put("user", MYSQL_USERNAME);
         connectionProperties.put("password", MYSQL_PWD);
-        String dbTable = "(SELECT * FROM HNPQCountry) AS t";
+        String dbTable = "(SELECT * FROM wealth_accounts) AS t";
 
         long start_time = System.currentTimeMillis();
         Dataset<Row> jdbcDF =
@@ -61,8 +61,8 @@ public class StartJobRestController {
 //
 //        dataTable.forEach(System.out::println);
         System.out.println("time spent: " + (System.currentTimeMillis() - start_time));
-        System.out.println(jdbcDF.schema());
-        jdbcDF.show();
+//        System.out.println(jdbcDF.schema());
+        jdbcDF.groupBy("Country_Code").sum().show();
     }
 
     private JobConfig createJobConfig(){

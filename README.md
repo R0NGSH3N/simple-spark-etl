@@ -150,3 +150,41 @@ dependencies {
     jdbcDF.show();
    ~~~
 
+4. Implement the `aggregation`
+
+   Once we have `DataFrame`, we can play with the data with all kind function, I use `groupBy` as example:
+
+   ~~~java
+   jdbcDF.groupBy("Country_Code").sum().show();
+   ~~~
+   
+   This one will group by `Country_Code` column and sum on **ALL** the digital column, result like this:
+
+   ~~~java
+   +------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+   |Country_Code|           sum(1995)|           sum(2000)|           sum(2005)|           sum(2010)|           sum(2014)|
+   +------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+   |         EAS|302992017838977.4...|350595619274697.8...|397589301387791.2...|550533981011558.6...|666929288737934.7...|
+   |         EAP|121255466317991.8...|151990701037800.3...|189329997000360.5...|316028137120939.7...|409310032870258.5...|
+   |         ECS|475614521235871.3...|511463748512174.6...|567852449498619.8...|628489374891343.7...|659453050467567.6...|
+   |         ECA|27974905466106.96...|25217473449463.17...|30451233077270.98...|37193410278270.26...|40837018780017.00...|
+   |         NOC|98372858176692.73...|102378340664075.2...|132196820134356.7...|174740342172317.9...|198518419756351.5...|
+   |         OEC|1055033081229600....|1216236723392884....|1332894394681830....|1424787846815576....|1525648583729085....|
+   |         LCN|118009341257234.7...|127470278101624.8...|148731647744058.2...|180964490134110.1...|199491577977210.4...|
+   |         LAC|98856711072961.06...|105800493395128.3...|124357683124228.9...|148862492410149.8...|161834854535672.2...|
+   |         LIC|10745588371020.55...|10733019421644.43...|12047456442638.36...|16306363466644.66...|20659063105024.20...|
+   |         LMC|94393437168337.15...|95464415362693.38...|117748083243199.3...|156434488833833.6...|179259793136739.2...|
+   ~~~
+   
+5. Implement `global temp view`
+
+   Some people will prefer to use T-SQL or spark's function, that also could be done:
+
+   ~~~java
+   jdbcDF.createGlobalTempView("wealth_accounts");
+   spark.sql("select Country_Code, sum(1995) from global_temp.wealth_accounts group by Country_Code").show();
+   ~~~ 
+   
+   first, you need to create `temp view`, I think that is equivalent to temp table in db, and then you can run sql against.
+   
+   p.s: when I test this function, some how I have to disable the `.enableHiveSupport()` option.

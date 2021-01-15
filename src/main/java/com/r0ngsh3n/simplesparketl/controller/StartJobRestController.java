@@ -1,19 +1,12 @@
 package com.r0ngsh3n.simplesparketl.controller;
 
-import com.google.common.base.Splitter;
-import com.r0ngsh3n.simplesparketl.config.JobConfig;
-import org.apache.spark.SparkConf;
-import org.apache.spark.sql.DataFrameReader;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
-import org.apache.spark.sql.SparkSession;
+import com.r0ngsh3n.simplesparketl.core.JobConfig;
+import org.apache.spark.sql.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import scala.collection.immutable.HashMap;
 import scala.collection.immutable.Map;
 
-import java.util.List;
 import java.util.Properties;
 
 @RestController
@@ -22,13 +15,18 @@ public class StartJobRestController {
     private static final String MYSQL_USERNAME = "root";
     private static final String MYSQL_PWD = "123";
 
+    @GetMapping("/selectJob/{jobName}")
+    public String selectJob(@PathVariable String jobName){
+        return null;
+    }
+
     @GetMapping("/startJob/{jobName}/{partition}")
-    public void startJob(@PathVariable String jobName, @PathVariable int partition){
+    public void startJob(@PathVariable String jobName, @PathVariable int partition) throws AnalysisException {
         SparkSession spark = SparkSession.builder()
                 .appName(jobName)
                 .master("local")
 //                .config("some option", "some value")
-                .enableHiveSupport()
+//                .enableHiveSupport()
                 .getOrCreate();
 
         //set up sparkSession runtime arguments
@@ -40,7 +38,7 @@ public class StartJobRestController {
         DataFrameReader rdr = spark.read();
         rdr.format("jdbc");
         rdr.option("numPartitions", 10);
-        rdr.option("partitionColumn", "Country_Code");
+//        rdr.option("partitionColumn", "Country_Code");
 //        java.util.Map<String, String> options = Splitter.on(",").withKeyValueSeparator(":").split("driver");
 //        for(String key: options.keySet()){
 //            System.out.println(String.format("key: s% :: value: s%", key, options.get(key)));
@@ -63,6 +61,10 @@ public class StartJobRestController {
         System.out.println("time spent: " + (System.currentTimeMillis() - start_time));
 //        System.out.println(jdbcDF.schema());
         jdbcDF.groupBy("Country_Code").sum().show();
+        jdbcDF.createGlobalTempView("wealth_accounts");
+
+        spark.sql("select Country_Code, sum(1995) from global_temp.wealth_accounts group by Country_Code").show();
+
     }
 
     private JobConfig createJobConfig(){

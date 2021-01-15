@@ -1,0 +1,13 @@
+jobConfig:
+  jobName: "SampleJob"
+  sourceFormat: "jdbc"
+  dbConnectionURL: "jdbc:mysql://localhost:3306/Test"
+  dbTable: "(SELECT * FROM wealth_accounts) AS t"
+  enableHiveSupport: true
+  userName: "root"
+  password:  "123"
+  sessionConfig:
+    "spark.sql.shuffle.partitions" : 10
+    "spark.executor.memory" : 2g
+  dataFrameOptions:
+    numPartitions: 10

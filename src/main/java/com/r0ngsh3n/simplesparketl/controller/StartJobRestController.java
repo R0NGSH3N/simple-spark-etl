@@ -35,14 +35,6 @@ public class StartJobRestController {
 
         Map<String, String> sparkConf = spark.conf().getAll();
 
-        DataFrameReader rdr = spark.read();
-        rdr.format("jdbc");
-        rdr.option("numPartitions", 10);
-//        rdr.option("partitionColumn", "Country_Code");
-//        java.util.Map<String, String> options = Splitter.on(",").withKeyValueSeparator(":").split("driver");
-//        for(String key: options.keySet()){
-//            System.out.println(String.format("key: s% :: value: s%", key, options.get(key)));
-//        }
 
         //JDBC connection properties
         final Properties connectionProperties = new Properties();

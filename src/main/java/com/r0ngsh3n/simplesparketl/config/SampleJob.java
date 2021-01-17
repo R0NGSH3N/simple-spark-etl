@@ -7,6 +7,7 @@ import com.r0ngsh3n.simplesparketl.core.loader.DBDataLoader;
 import com.r0ngsh3n.simplesparketl.core.loader.Loader;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,7 @@ import java.util.Map;
 @ConfigurationProperties
 @Getter
 @Setter
-public class SampleJobConfig {
+public class SampleJob {
 
     private String jobName;
     private Boolean enableHiveSupport;
@@ -30,7 +31,6 @@ public class SampleJobConfig {
     private String password;
 
     public Map<String, String> sessionConfig;
-    public Map<String, String> dataFrameOptions;
 
     @Bean
     public JobConfig sampleJobConfig(){
@@ -42,7 +42,6 @@ public class SampleJobConfig {
         jobConfig.setUserName(this.userName);
         jobConfig.setPassword(this.password);
         jobConfig.setSparkSessionOptions(sessionConfig);
-        jobConfig.setDataFrameOptions(this.dataFrameOptions);
         return jobConfig;
     }
 

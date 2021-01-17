@@ -7,7 +7,7 @@ import org.apache.spark.sql.Row;
 
 import java.util.Properties;
 
-public class DBDataLoader extends AbstractLoader{
+public class DBDataLoader<T> extends AbstractLoader{
 
     @Override
     public void load(JobContext jobContext) {

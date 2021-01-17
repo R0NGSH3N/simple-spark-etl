@@ -3,4 +3,6 @@ server:
 spring:
   application:
     name: simple-spark-etl
-
+  session-config:
+    "[spark.sql.shuffle.partitions]": 10
+    "[spark.executor.memory]": 2g

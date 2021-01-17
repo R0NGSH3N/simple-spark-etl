@@ -1,0 +1,4 @@
+job-mappings:
+  mapp:
+    sampleJob:  "SampleJobRunner"
+    otherJob:  "OtherJob"

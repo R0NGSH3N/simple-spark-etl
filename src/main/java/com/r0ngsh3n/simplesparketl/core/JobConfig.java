@@ -12,7 +12,6 @@ public class JobConfig {
     private String jobName;
 
     private Map<String, String> sparkSessionOptions;
-    private Map<String, String> dataFrameOptions;
 
     private Boolean enableHiveSupport;
     private String sourceFormat;

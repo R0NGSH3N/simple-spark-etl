@@ -13,7 +13,7 @@ public class JobConfig {
 
     private Map<String, String> sparkSessionOptions;
 
-    private Boolean enableHiveSupport;
+    private Boolean enableHiveSupport = false;
     private String sourceFormat;
 
     private String dbConnectionURL;

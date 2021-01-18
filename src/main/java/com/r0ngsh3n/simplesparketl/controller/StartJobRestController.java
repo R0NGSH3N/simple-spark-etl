@@ -1,23 +1,41 @@
 package com.r0ngsh3n.simplesparketl.controller;
 
 import com.r0ngsh3n.simplesparketl.core.JobConfig;
-import org.apache.spark.sql.*;
+import com.r0ngsh3n.simplesparketl.core.JobRunner;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.spark.sql.AnalysisException;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import scala.Option;
 import scala.collection.immutable.Map;
 
 import java.util.Properties;
 
 @RestController
+@Setter
+@Getter
 public class StartJobRestController {
     private static final String MYSQL_CONNECTION_URL = "jdbc:mysql://localhost:3306/Test";
     private static final String MYSQL_USERNAME = "root";
     private static final String MYSQL_PWD = "123";
 
+    @Autowired
+    private java.util.Map<String, JobRunner> jobMapping;
+
     @GetMapping("/selectJob/{jobName}")
     public String selectJob(@PathVariable String jobName){
-        return null;
+        JobRunner jobRunner = jobMapping.get(jobName);
+        if(jobRunner != null) {
+            jobRunner.run();
+        }
+
+        return "Successful";
     }
 
     @GetMapping("/startJob/{jobName}/{partition}")

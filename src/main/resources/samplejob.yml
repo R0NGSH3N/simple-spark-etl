@@ -1,4 +1,4 @@
-job-config:
+jobConfig:
   jobName: "SampleJob"
   sourceFormat: "jdbc"
   dbConnectionURL: "jdbc:mysql://localhost:3306/Test"
@@ -6,3 +6,4 @@ job-config:
   enableHiveSupport: true
   userName: "root"
   password:  "123"
+  session-config: "spark.sql.shuffle.partitions: 4, spark.executor.memory: 2g"

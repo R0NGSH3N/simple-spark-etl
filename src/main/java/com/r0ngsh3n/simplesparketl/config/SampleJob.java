@@ -1,5 +1,6 @@
 package com.r0ngsh3n.simplesparketl.config;
 
+import com.google.common.base.Splitter;
 import com.r0ngsh3n.simplesparketl.core.JobConfig;
 import com.r0ngsh3n.simplesparketl.core.JobContext;
 import com.r0ngsh3n.simplesparketl.core.JobRunner;
@@ -7,13 +8,10 @@ import com.r0ngsh3n.simplesparketl.core.loader.DBDataLoader;
 import com.r0ngsh3n.simplesparketl.core.loader.Loader;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-
-import java.util.Map;
 
 @Configuration
 @PropertySource("classpath:samplejob.yml")
@@ -30,7 +28,7 @@ public class SampleJob {
     private String userName;
     private String password;
 
-    public Map<String, String> sessionConfig;
+    public String sessionConfig;
 
     @Bean
     public JobConfig sampleJobConfig(){
@@ -41,7 +39,7 @@ public class SampleJob {
         jobConfig.setDbTable(this.dbTable);
         jobConfig.setUserName(this.userName);
         jobConfig.setPassword(this.password);
-        jobConfig.setSparkSessionOptions(sessionConfig);
+        jobConfig.setSparkSessionOptions(Splitter.on(",").withKeyValueSeparator(":").split(sessionConfig));
         return jobConfig;
     }
 
@@ -52,10 +50,11 @@ public class SampleJob {
         return jobContext;
     }
 
-    @Bean
+    @Bean(name="SampleJobRunner")
     public JobRunner SampleJobRunner(JobContext jobContext){
         JobRunner jobRunner = new JobRunner(jobContext);
         Loader dbDataLoader = new DBDataLoader();
+        jobRunner.setLoader(dbDataLoader);
         return jobRunner;
     }
 }

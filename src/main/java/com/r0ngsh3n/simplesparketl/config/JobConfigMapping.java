@@ -25,10 +25,10 @@ public class JobConfigMapping {
     private ApplicationContext applicationContext;
     private String jobMappings;
 
-    @Bean
-    public Map<String, JobRunner> jobMapping(){
+    @Bean(name="jobMapping")
+    public HashMap<String, JobRunner> jobMapping(){
         Map<String, String>  mapp = Splitter.on(",").withKeyValueSeparator("|").split(jobMappings);
-        Map<String, JobRunner> jobMapping = new HashMap();
+        HashMap<String, JobRunner> jobMapping = new HashMap<>();
         for(String jobName : mapp.keySet()){
             JobRunner jobRunner = (JobRunner)applicationContext.getBean(mapp.get(jobName));
             if( jobRunner == null){

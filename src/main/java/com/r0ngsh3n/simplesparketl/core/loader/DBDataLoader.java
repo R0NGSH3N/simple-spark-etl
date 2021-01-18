@@ -12,6 +12,9 @@ public class DBDataLoader<T> extends AbstractLoader{
     @Override
     public void load(JobContext jobContext) {
         JobConfig jobConfig = jobContext.getJobConfig();
+        if(this.spark == null){
+            initSparkSession(jobConfig);
+        }
         final Properties connectionProperties = new Properties();
         connectionProperties.put("user", jobConfig.getUserName());
         connectionProperties.put("password", jobConfig.getPassword());

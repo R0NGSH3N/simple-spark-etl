@@ -11,7 +11,7 @@ public class DBDataLoader<T> extends AbstractLoader{
 
     @Override
     public void load(JobContext jobContext) {
-        JobConfig jobConfig = jobContext.getJobConfig();
+        JobConfig jobConfig = getJobConfig();
         if(this.spark == null){
             initSparkSession(jobConfig);
         }

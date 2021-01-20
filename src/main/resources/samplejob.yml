@@ -1,9 +1,9 @@
 jobConfig:
-  jobName: "SampleJob"
-  sourceFormat: "jdbc"
-  dbConnectionURL: "jdbc:mysql://localhost:3306/Test"
-  dbTable: "(SELECT * FROM wealth_accounts) AS t"
+  jobName: SampleJob
+  sourceFormat: jdbc
+  dbConnectionURL: jdbc:mysql://localhost:3306/Test
+  dbTable: (SELECT * FROM wealth_accounts) AS t
   enableHiveSupport: true
-  userName: "root"
-  password:  "123"
+  userName: root
+  password:  123
   session-config: "spark.sql.shuffle.partitions: 4, spark.executor.memory: 2g"

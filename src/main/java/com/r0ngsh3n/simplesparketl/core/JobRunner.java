@@ -10,12 +10,12 @@ import lombok.Setter;
 @Getter
 public class JobRunner<T> {
 
-    private JobContext jobContext;
+    private JobContext<T> jobContext;
     private Loader<T> loader;
     private Extractor<T> extractor;
     private Transformer<T> transformer;
 
-    public JobRunner(JobContext jobContext){
+    public JobRunner(JobContext<T> jobContext){
         this.jobContext = jobContext;
     }
 

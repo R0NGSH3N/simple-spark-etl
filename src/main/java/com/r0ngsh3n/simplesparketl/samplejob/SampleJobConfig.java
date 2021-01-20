@@ -1,4 +1,4 @@
-package com.r0ngsh3n.simplesparketl.config;
+package com.r0ngsh3n.simplesparketl.samplejob;
 
 import com.google.common.base.Splitter;
 import com.r0ngsh3n.simplesparketl.core.JobConfig;
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.PropertySource;
 @ConfigurationProperties
 @Getter
 @Setter
-public class SampleJob {
+public class SampleJobConfig {
 
     private String jobName;
     private Boolean enableHiveSupport;
@@ -44,8 +44,8 @@ public class SampleJob {
     }
 
     @Bean
-    public JobContext sampleJobContext(JobConfig sampleConfig){
-        JobContext jobContext = new JobContext();
+    public JobContext<SampleJobEvent> sampleJobContext(JobConfig sampleConfig){
+        JobContext<SampleJobEvent> jobContext = new JobContext<>();
         jobContext.setJobConfig(sampleConfig);
         return jobContext;
     }

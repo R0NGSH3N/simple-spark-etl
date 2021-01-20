@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import scala.Option;
 import scala.collection.immutable.Map;
 
 import java.util.Properties;
@@ -29,9 +28,9 @@ public class StartJobRestController {
     private java.util.Map<String, JobRunner> jobMapping;
 
     @GetMapping("/selectJob/{jobName}")
-    public String selectJob(@PathVariable String jobName){
+    public String selectJob(@PathVariable String jobName) {
         JobRunner jobRunner = jobMapping.get(jobName);
-        if(jobRunner != null) {
+        if (jobRunner != null) {
             jobRunner.run();
         }
 
@@ -77,7 +76,7 @@ public class StartJobRestController {
 
     }
 
-    private JobConfig createJobConfig(){
+    private JobConfig createJobConfig() {
         JobConfig jobConfig = new JobConfig();
         jobConfig.setJobName("Test");
 

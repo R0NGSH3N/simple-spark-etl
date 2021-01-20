@@ -10,7 +10,6 @@ import org.apache.spark.sql.Row;
 @Getter
 public class JobContext<T> {
 
-    private JobConfig jobConfig;
     private Dataset<Row> dataSet;
     private T target;
 

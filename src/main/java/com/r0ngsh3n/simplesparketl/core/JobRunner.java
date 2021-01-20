@@ -19,7 +19,9 @@ public class JobRunner<T> {
         this.jobConfig = jobConfig;
     }
 
-    public void run(JobContext<T> jobContext){
+    public void run(T target){
+        JobContext<T> jobContext = new JobContext<>();
+        jobContext.setTarget(target);
         this.loader.load(jobContext);
         this.transformer.tranform(jobContext);
         this.extractor.extract(jobContext);

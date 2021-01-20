@@ -50,7 +50,7 @@ public class SampleJobConfig {
     @Bean(name="SampleJobRunner")
     public JobRunner SampleJobRunner(JobConfig jobConfig, Extractor<SampleJobEvent> sampleExtractor){
         JobRunner jobRunner = new JobRunner(jobConfig);
-        Loader dbDataLoader = new DBDataLoader();
+        Loader<SampleJobEvent> dbDataLoader = new DBDataLoader();
         Transformer<SampleJobEvent> transformer = new SampleTranformer();
         jobRunner.setLoader(dbDataLoader);
         jobRunner.setExtractor(sampleExtractor);

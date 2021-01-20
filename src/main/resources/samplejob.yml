@@ -7,3 +7,4 @@ jobConfig:
   userName: root
   password:  123
   session-config: "spark.sql.shuffle.partitions: 4, spark.executor.memory: 2g"
+  output-dir: /tmp/

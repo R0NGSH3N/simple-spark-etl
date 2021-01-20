@@ -4,8 +4,10 @@ import com.google.common.base.Splitter;
 import com.r0ngsh3n.simplesparketl.core.JobConfig;
 import com.r0ngsh3n.simplesparketl.core.JobContext;
 import com.r0ngsh3n.simplesparketl.core.JobRunner;
+import com.r0ngsh3n.simplesparketl.core.extractor.Extractor;
 import com.r0ngsh3n.simplesparketl.core.loader.DBDataLoader;
 import com.r0ngsh3n.simplesparketl.core.loader.Loader;
+import com.r0ngsh3n.simplesparketl.core.transformer.Transformer;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -30,8 +32,10 @@ public class SampleJobConfig {
 
     public String sessionConfig;
 
+    public String outputDir;
+
     @Bean
-    public JobConfig sampleJobConfig(){
+    public JobConfig sampleJob(){
         JobConfig jobConfig = new JobConfig();
         jobConfig.setJobName(this.jobName);
         jobConfig.setSourceFormat(this.sourceFormat);
@@ -51,10 +55,22 @@ public class SampleJobConfig {
     }
 
     @Bean(name="SampleJobRunner")
-    public JobRunner SampleJobRunner(JobContext jobContext){
+    public JobRunner SampleJobRunner(JobContext<SampleJobEvent> jobContext, Extractor<SampleJobEvent> sampleExtractor){
         JobRunner jobRunner = new JobRunner(jobContext);
         Loader dbDataLoader = new DBDataLoader();
+        Transformer<SampleJobEvent> transformer = new SampleTranformer();
         jobRunner.setLoader(dbDataLoader);
+        jobRunner.setExtractor(sampleExtractor);
+        jobRunner.setTransformer(transformer);
+
         return jobRunner;
     }
+
+    @Bean(name="sampleExtractor")
+    public Extractor<SampleJobEvent> sampleExtractor(){
+        SampleExtractor extractor = new SampleExtractor();
+        extractor.setOutputDir(this.outputDir);
+        return extractor;
+    }
+
 }

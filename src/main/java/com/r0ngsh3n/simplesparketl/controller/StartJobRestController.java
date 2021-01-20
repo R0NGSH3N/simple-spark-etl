@@ -1,7 +1,9 @@
 package com.r0ngsh3n.simplesparketl.controller;
 
 import com.r0ngsh3n.simplesparketl.core.JobConfig;
+import com.r0ngsh3n.simplesparketl.core.JobContext;
 import com.r0ngsh3n.simplesparketl.core.JobRunner;
+import com.r0ngsh3n.simplesparketl.samplejob.SampleJobEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.spark.sql.AnalysisException;
@@ -30,8 +32,11 @@ public class StartJobRestController {
     @GetMapping("/selectJob/{jobName}")
     public String selectJob(@PathVariable String jobName) {
         JobRunner jobRunner = jobMapping.get(jobName);
+        SampleJobEvent event = new SampleJobEvent();
+        JobContext<SampleJobEvent> jobContext = new JobContext<>();
+        jobContext.setTarget(event);
         if (jobRunner != null) {
-            jobRunner.run();
+            jobRunner.run(jobContext);
         }
 
         return "Successful";

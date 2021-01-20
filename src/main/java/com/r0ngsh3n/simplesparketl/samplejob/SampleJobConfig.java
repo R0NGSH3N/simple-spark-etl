@@ -47,16 +47,9 @@ public class SampleJobConfig {
         return jobConfig;
     }
 
-    @Bean
-    public JobContext<SampleJobEvent> sampleJobContext(JobConfig sampleConfig){
-        JobContext<SampleJobEvent> jobContext = new JobContext<>();
-        jobContext.setJobConfig(sampleConfig);
-        return jobContext;
-    }
-
     @Bean(name="SampleJobRunner")
-    public JobRunner SampleJobRunner(JobContext<SampleJobEvent> jobContext, Extractor<SampleJobEvent> sampleExtractor){
-        JobRunner jobRunner = new JobRunner(jobContext);
+    public JobRunner SampleJobRunner(JobConfig jobConfig, Extractor<SampleJobEvent> sampleExtractor){
+        JobRunner jobRunner = new JobRunner(jobConfig);
         Loader dbDataLoader = new DBDataLoader();
         Transformer<SampleJobEvent> transformer = new SampleTranformer();
         jobRunner.setLoader(dbDataLoader);

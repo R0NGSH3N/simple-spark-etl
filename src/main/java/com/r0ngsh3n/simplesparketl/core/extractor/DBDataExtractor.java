@@ -1,4 +1,4 @@
-package com.r0ngsh3n.simplesparketl.core.loader;
+package com.r0ngsh3n.simplesparketl.core.extractor;
 
 import com.r0ngsh3n.simplesparketl.core.JobConfig;
 import com.r0ngsh3n.simplesparketl.core.JobContext;
@@ -7,10 +7,10 @@ import org.apache.spark.sql.Row;
 
 import java.util.Properties;
 
-public class DBDataLoader<T> extends AbstractLoader{
+public class DBDataExtractor<T> extends AbstractExtractor {
 
     @Override
-    public void load(JobContext jobContext) {
+    public void extract(JobContext jobContext) {
         JobConfig jobConfig = getJobConfig();
         if(this.spark == null){
             initSparkSession(jobConfig);

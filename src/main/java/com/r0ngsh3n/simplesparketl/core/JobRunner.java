@@ -11,8 +11,8 @@ import lombok.Setter;
 public class JobRunner<T> {
 
     private JobConfig jobConfig;
-    private Loader<T> loader;
     private Extractor<T> extractor;
+    private Loader<T> loader;
     private Transformer<T> transformer;
 
     public JobRunner(JobConfig jobConfig){
@@ -22,9 +22,9 @@ public class JobRunner<T> {
     public void run(T target){
         JobContext<T> jobContext = new JobContext<>();
         jobContext.setTarget(target);
-        this.loader.load(jobContext);
-        this.transformer.tranform(jobContext);
         this.extractor.extract(jobContext);
+        this.transformer.tranform(jobContext);
+        this.loader.load(jobContext);
     }
 
 }

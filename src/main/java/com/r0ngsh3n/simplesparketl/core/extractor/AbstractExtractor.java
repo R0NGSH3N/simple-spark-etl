@@ -1,11 +1,11 @@
-package com.r0ngsh3n.simplesparketl.core.loader;
+package com.r0ngsh3n.simplesparketl.core.extractor;
 
 import com.r0ngsh3n.simplesparketl.core.JobConfig;
 import org.apache.spark.sql.SparkSession;
 
 import java.util.Map;
 
-public abstract class AbstractLoader implements Loader {
+public abstract class AbstractExtractor implements Extractor {
 
     protected SparkSession spark;
     private JobConfig jobConfig;

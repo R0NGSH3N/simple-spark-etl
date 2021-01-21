@@ -2,10 +2,9 @@ package com.r0ngsh3n.simplesparketl.samplejob;
 
 import com.google.common.base.Splitter;
 import com.r0ngsh3n.simplesparketl.core.JobConfig;
-import com.r0ngsh3n.simplesparketl.core.JobContext;
 import com.r0ngsh3n.simplesparketl.core.JobRunner;
+import com.r0ngsh3n.simplesparketl.core.extractor.DBDataExtractor;
 import com.r0ngsh3n.simplesparketl.core.extractor.Extractor;
-import com.r0ngsh3n.simplesparketl.core.loader.DBDataLoader;
 import com.r0ngsh3n.simplesparketl.core.loader.Loader;
 import com.r0ngsh3n.simplesparketl.core.transformer.Transformer;
 import lombok.Getter;
@@ -48,22 +47,22 @@ public class SampleJobConfig {
     }
 
     @Bean(name="SampleJobRunner")
-    public JobRunner SampleJobRunner(JobConfig jobConfig, Extractor<SampleJobEvent> sampleExtractor){
+    public JobRunner SampleJobRunner(JobConfig jobConfig, Loader<SampleJobEvent> sampleLoader){
         JobRunner jobRunner = new JobRunner(jobConfig);
-        Loader<SampleJobEvent> dbDataLoader = new DBDataLoader();
+        Extractor<SampleJobEvent> dbDataExtractor = new DBDataExtractor();
         Transformer<SampleJobEvent> transformer = new SampleTranformer();
-        jobRunner.setLoader(dbDataLoader);
-        jobRunner.setExtractor(sampleExtractor);
+        jobRunner.setLoader(sampleLoader);
+        jobRunner.setExtractor(dbDataExtractor);
         jobRunner.setTransformer(transformer);
 
         return jobRunner;
     }
 
-    @Bean(name="sampleExtractor")
-    public Extractor<SampleJobEvent> sampleExtractor(){
-        SampleExtractor extractor = new SampleExtractor();
-        extractor.setOutputDir(this.outputDir);
-        return extractor;
+    @Bean(name="sampleLoader")
+    public Loader<SampleJobEvent> sampleLoader(){
+        SampleLoader loader = new SampleLoader();
+        loader.setOutputDir(this.outputDir);
+        return loader;
     }
 
 }

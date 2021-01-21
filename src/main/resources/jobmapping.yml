@@ -1,1 +1,1 @@
-job-mappings: sampleJob|SampleJobRunner
+job-mappings: sampleJob|SampleJobRunner, csvJob|CSVJobRunner

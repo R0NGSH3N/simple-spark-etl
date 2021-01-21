@@ -3,6 +3,7 @@ package com.r0ngsh3n.simplesparketl.samplejob;
 import com.google.common.base.Splitter;
 import com.r0ngsh3n.simplesparketl.core.JobConfig;
 import com.r0ngsh3n.simplesparketl.core.JobRunner;
+import com.r0ngsh3n.simplesparketl.core.extractor.CSVDataExtractor;
 import com.r0ngsh3n.simplesparketl.core.extractor.DBDataExtractor;
 import com.r0ngsh3n.simplesparketl.core.extractor.Extractor;
 import com.r0ngsh3n.simplesparketl.core.loader.Loader;
@@ -32,6 +33,7 @@ public class SampleJobConfig {
     public String sessionConfig;
 
     public String outputDir;
+    public String inputCSVFileDir;
 
     @Bean
     public JobConfig sampleJob(){
@@ -43,7 +45,21 @@ public class SampleJobConfig {
         jobConfig.setUserName(this.userName);
         jobConfig.setPassword(this.password);
         jobConfig.setSparkSessionOptions(Splitter.on(",").withKeyValueSeparator(":").split(sessionConfig));
+        jobConfig.setInputCSVFileDir(this.inputCSVFileDir);
         return jobConfig;
+    }
+
+    @Bean(name="CSVJobRunner")
+    public JobRunner CSVJobRunner(JobConfig jobConfig, Loader<SampleJobEvent> sampleLoader){
+        JobRunner jobRunner = new JobRunner(jobConfig);
+        Extractor<SampleJobEvent> csvDataExtractor = new CSVDataExtractor<>();
+        Transformer<SampleJobEvent> transformer = new SampleTranformer();
+        jobRunner.setLoader(sampleLoader);
+        jobRunner.setExtractor(csvDataExtractor);
+        jobRunner.setTransformer(transformer);
+
+        return jobRunner;
+
     }
 
     @Bean(name="SampleJobRunner")

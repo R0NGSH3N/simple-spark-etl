@@ -8,3 +8,4 @@ jobConfig:
   password:  123
   session-config: "spark.sql.shuffle.partitions: 4, spark.executor.memory: 2g"
   output-dir: /tmp/
+  inputCSVFileDir: /home/rongshen/Downloads/HNPQData.csv

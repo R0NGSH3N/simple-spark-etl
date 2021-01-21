@@ -21,4 +21,7 @@ public class JobConfig {
     private String userName;
     private String password;
 
+    private String inputCSVFileDir;
+    private String outputCSVFileDir;
+
 }

@@ -1,9 +1,9 @@
 package com.r0ngsh3n.simplesparketl.controller;
 
-import com.r0ngsh3n.simplesparketl.core.JobConfig;
-import com.r0ngsh3n.simplesparketl.core.JobContext;
-import com.r0ngsh3n.simplesparketl.core.JobRunner;
-import com.r0ngsh3n.simplesparketl.samplejob.SampleJobEvent;
+import com.r0ngsh3n.simplesparketl.job.core.JobConfig;
+import com.r0ngsh3n.simplesparketl.job.core.JobContext;
+import com.r0ngsh3n.simplesparketl.job.core.JobRunner;
+import com.r0ngsh3n.simplesparketl.job.samplejob.SampleJobEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.spark.sql.AnalysisException;

@@ -1,7 +1,7 @@
-package com.r0ngsh3n.simplesparketl.samplejob;
+package com.r0ngsh3n.simplesparketl.job.samplejob;
 
-import com.r0ngsh3n.simplesparketl.core.JobContext;
-import com.r0ngsh3n.simplesparketl.core.loader.Loader;
+import com.r0ngsh3n.simplesparketl.job.core.JobContext;
+import com.r0ngsh3n.simplesparketl.job.core.loader.Loader;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.spark.sql.Dataset;

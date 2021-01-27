@@ -1,13 +1,14 @@
-package com.r0ngsh3n.simplesparketl.samplejob;
+package com.r0ngsh3n.simplesparketl.job.samplejob;
 
 import com.google.common.base.Splitter;
-import com.r0ngsh3n.simplesparketl.core.JobConfig;
-import com.r0ngsh3n.simplesparketl.core.JobRunner;
-import com.r0ngsh3n.simplesparketl.core.extractor.CSVDataExtractor;
-import com.r0ngsh3n.simplesparketl.core.extractor.DBDataExtractor;
-import com.r0ngsh3n.simplesparketl.core.extractor.Extractor;
-import com.r0ngsh3n.simplesparketl.core.loader.Loader;
-import com.r0ngsh3n.simplesparketl.core.transformer.Transformer;
+import com.google.inject.AbstractModule;
+import com.r0ngsh3n.simplesparketl.job.core.JobConfig;
+import com.r0ngsh3n.simplesparketl.job.core.JobRunner;
+import com.r0ngsh3n.simplesparketl.job.core.extractor.CSVDataExtractor;
+import com.r0ngsh3n.simplesparketl.job.core.extractor.DBDataExtractor;
+import com.r0ngsh3n.simplesparketl.job.core.extractor.Extractor;
+import com.r0ngsh3n.simplesparketl.job.core.loader.Loader;
+import com.r0ngsh3n.simplesparketl.job.core.transformer.Transformer;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,12 +16,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-@Configuration
-@PropertySource("classpath:samplejob.yml")
-@ConfigurationProperties
 @Getter
 @Setter
-public class SampleJobConfig {
+public class SampleJobConfig extends AbstractModule {
 
     private String jobName;
     private Boolean enableHiveSupport;
@@ -35,7 +33,6 @@ public class SampleJobConfig {
     public String outputDir;
     public String inputCSVFileDir;
 
-    @Bean
     public JobConfig sampleJob(){
         JobConfig jobConfig = new JobConfig();
         jobConfig.setJobName(this.jobName);
@@ -62,13 +59,18 @@ public class SampleJobConfig {
 
     }
 
-    @Bean(name="SampleJobRunner")
-    public JobRunner SampleJobRunner(JobConfig jobConfig, Loader<SampleJobEvent> sampleLoader){
-        JobRunner jobRunner = new JobRunner(jobConfig);
+    @Bean(name="MySQLExtractor")
+    public Extractor<SampleJobEvent> MySQLExtractor(){
         Extractor<SampleJobEvent> dbDataExtractor = new DBDataExtractor();
+        return dbDataExtractor;
+    }
+
+    @Bean(name="SampleJobRunner")
+    public JobRunner SampleJobRunner(JobConfig jobConfig, Loader<SampleJobEvent> sampleLoader, Extractor<SampleJobEvent> MySQLExtractor){
+        JobRunner jobRunner = new JobRunner(jobConfig);
         Transformer<SampleJobEvent> transformer = new SampleTranformer();
         jobRunner.setLoader(sampleLoader);
-        jobRunner.setExtractor(dbDataExtractor);
+        jobRunner.setExtractor(MySQLExtractor);
         jobRunner.setTransformer(transformer);
 
         return jobRunner;
@@ -81,4 +83,8 @@ public class SampleJobConfig {
         return loader;
     }
 
+    @Override
+    protected void configure() {
+        bind(Extractor.class).to(DBDataExtractor.class);
+    }
 }

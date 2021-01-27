@@ -1,7 +1,7 @@
-package com.r0ngsh3n.simplesparketl.samplejob;
+package com.r0ngsh3n.simplesparketl.job.samplejob;
 
-import com.r0ngsh3n.simplesparketl.core.JobContext;
-import com.r0ngsh3n.simplesparketl.core.transformer.Transformer;
+import com.r0ngsh3n.simplesparketl.job.core.JobContext;
+import com.r0ngsh3n.simplesparketl.job.core.transformer.Transformer;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 

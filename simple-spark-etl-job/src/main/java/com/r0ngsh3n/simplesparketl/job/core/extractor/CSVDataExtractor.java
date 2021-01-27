@@ -1,7 +1,7 @@
-package com.r0ngsh3n.simplesparketl.core.extractor;
+package com.r0ngsh3n.simplesparketl.job.core.extractor;
 
-import com.r0ngsh3n.simplesparketl.core.JobConfig;
-import com.r0ngsh3n.simplesparketl.core.JobContext;
+import com.r0ngsh3n.simplesparketl.job.core.JobConfig;
+import com.r0ngsh3n.simplesparketl.job.core.JobContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 

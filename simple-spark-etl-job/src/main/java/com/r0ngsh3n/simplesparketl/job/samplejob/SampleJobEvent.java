@@ -1,4 +1,4 @@
-package com.r0ngsh3n.simplesparketl.samplejob;
+package com.r0ngsh3n.simplesparketl.job.samplejob;
 
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;

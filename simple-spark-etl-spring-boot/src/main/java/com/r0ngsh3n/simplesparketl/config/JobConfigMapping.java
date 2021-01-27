@@ -1,7 +1,7 @@
 package com.r0ngsh3n.simplesparketl.config;
 
 import com.google.common.base.Splitter;
-import com.r0ngsh3n.simplesparketl.core.JobRunner;
+import com.r0ngsh3n.simplesparketl.job.core.JobRunner;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;

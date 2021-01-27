@@ -1,8 +1,8 @@
-package com.r0ngsh3n.simplesparketl.core;
+package com.r0ngsh3n.simplesparketl.job.core;
 
-import com.r0ngsh3n.simplesparketl.core.extractor.Extractor;
-import com.r0ngsh3n.simplesparketl.core.loader.Loader;
-import com.r0ngsh3n.simplesparketl.core.transformer.Transformer;
+import com.r0ngsh3n.simplesparketl.job.core.extractor.Extractor;
+import com.r0ngsh3n.simplesparketl.job.core.loader.Loader;
+import com.r0ngsh3n.simplesparketl.job.core.transformer.Transformer;
 import lombok.Getter;
 import lombok.Setter;
 

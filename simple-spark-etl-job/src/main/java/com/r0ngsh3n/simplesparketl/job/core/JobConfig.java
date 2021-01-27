@@ -1,4 +1,4 @@
-package com.r0ngsh3n.simplesparketl.core;
+package com.r0ngsh3n.simplesparketl.job.core;
 
 import lombok.Getter;
 import lombok.Setter;

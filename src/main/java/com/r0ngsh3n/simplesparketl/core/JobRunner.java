@@ -27,4 +27,8 @@ public class JobRunner<T> {
         this.loader.load(jobContext);
     }
 
+    public static void main(String args[]){
+
+    }
+
 }

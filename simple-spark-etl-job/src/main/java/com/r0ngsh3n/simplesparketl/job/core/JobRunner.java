@@ -1,12 +1,12 @@
 package com.r0ngsh3n.simplesparketl.job.core;
 
+import com.google.inject.Inject;
 import com.r0ngsh3n.simplesparketl.job.core.extractor.Extractor;
 import com.r0ngsh3n.simplesparketl.job.core.loader.Loader;
 import com.r0ngsh3n.simplesparketl.job.core.transformer.Transformer;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
 public class JobRunner<T> {
 
@@ -15,6 +15,10 @@ public class JobRunner<T> {
     private Loader<T> loader;
     private Transformer<T> transformer;
 
+    @Inject
+    public void setExtractor(Extractor extractor){
+        this.extractor = extractor;
+    }
     public JobRunner(JobConfig jobConfig){
         this.jobConfig = jobConfig;
     }

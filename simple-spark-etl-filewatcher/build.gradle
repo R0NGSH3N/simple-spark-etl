@@ -1,0 +1,36 @@
+plugins {
+	id 'java'
+	id 'io.freefair.lombok' version '5.3.0'
+	id 'org.springframework.boot' version '2.4.1'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+}
+
+group = 'com.r0ngsh3n.simplesparketl'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+configurations.all {
+	exclude module: 'slf4j-log4j12'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.apache.spark:spark-core_2.11:2.4.4'
+	implementation 'org.apache.spark:spark-sql_2.11:2.4.4'
+	implementation 'org.apache.spark:spark-hive_2.11:2.4.4'
+	runtimeOnly 'mysql:mysql-connector-java:8.0.21'
+	//to fix "common-compiler" error: https://stackoverflow.com/questions/42352091/spark-sql-fails-with-java-lang-noclassdeffounderror-org-codehaus-commons-compil
+	implementation 'org.codehaus.janino:commons-compiler:3.0.16'
+	implementation 'org.codehaus.janino:janino:3.0.16'
+	implementation 'org.slf4j:jul-to-slf4j:1.7.30'
+	implementation 'com.typesafe:config:1.4.1'
+}
+
+test {
+	useJUnitPlatform()
+}

@@ -21,53 +21,55 @@ public class SimpleSparkEtlFileProcessor {
 
     private final List<SimpleSparkEtlFilWatcherConfig.ExtractConfig> extractConfigDirectoryList;
 
-    public SimpleSparkEtlFileProcessor(SimpleSparkEtlFilWatcherConfig config, Function<SimpleSparkEtlFilWatcherConfig, Lock> locks){
+    public SimpleSparkEtlFileProcessor(SimpleSparkEtlFilWatcherConfig config, Function<SimpleSparkEtlFilWatcherConfig, Lock> locks) {
         this.simpleSparkEtlFilWatcherConfig = config;
         this.locks = locks == null ? t -> new ReentrantLock() : locks;
         this.running = new AtomicBoolean(true);
+        this.extractConfigDirectoryList = config.getExtractConfigDirectoryList();
         this.executorService = Executors.newFixedThreadPool(this.extractConfigDirectoryList.size());
-
     }
 
-    private CompletableFuture process(SimpleSparkEtlFilWatcherConfig.ExtractConfig) {
-
+    private CompletableFuture start(SimpleSparkEtlFilWatcherConfig.ExtractConfig extractConfig) {
         return CompletableFuture.runAsync(() -> {
-
-
+            Function<String, CompletableFuture<String>> sparkSubmitter = createSparkProcessor(extractConfig);
+            FileProcessor fileProcessor = new FileProcessor(extractConfig, sparkSubmitter);
+            fileProcessor.process();
+        }, executorService);
     }
 
-    private
+    private Function<String, CompletableFuture<String>> createSparkProcessor(SimpleSparkEtlFilWatcherConfig.ExtractConfig extractConfig) {
+        SparkSubmitter sparkSubmitter = new SparkSubmitter(this.simpleSparkEtlFilWatcherConfig);
+        return dataFile -> sparkSubmitter.submit(dataFile, extractConfig);
+    }
 
-    public void run(){
+    public void run() {
         running.set(true);
         Lock lock = locks.apply(simpleSparkEtlFilWatcherConfig);
 
-        try{
+        try {
             log.info("start watching folder... {}", Thread.currentThread().getId());
 
-            while(running.get()){
-                if(acquireLock(lock)){
-                    CompletableFuture[] futures = extractConfigDirectoryList.stream().map(this::)
-
+            while (running.get()) {
+                if (acquireLock(lock)) {
+                    CompletableFuture[] futures = extractConfigDirectoryList.stream().map(this::start)
+                            .toArray(CompletableFuture[]::new);
+                    CompletableFuture.allOf(futures).join();
+                    lock.unlock();
                 }
-
             }
-
-        }finally{
-
+        } finally {
+            running.set(false);
+            lock.unlock();
         }
     }
 
-    public Boolean acquireLock(Lock lock){
+    public Boolean acquireLock(Lock lock) {
         try {
             return lock.tryLock();
         } catch (Exception e) {
             log.info("{}", e);
             return false;
         }
-
-
-    }
     }
 
 }

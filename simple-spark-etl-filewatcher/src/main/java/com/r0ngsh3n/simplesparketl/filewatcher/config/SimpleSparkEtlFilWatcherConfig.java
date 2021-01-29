@@ -22,7 +22,6 @@ import java.util.List;
 public class SimpleSparkEtlFilWatcherConfig {
     private List<ExtractConfig> extractConfigDirectoryList;
     private SparkConfig sparkConfig;
-    private LoadConfig loadConfig;
 
     @Data
     @Builder
@@ -38,10 +37,15 @@ public class SimpleSparkEtlFilWatcherConfig {
         private String extraJavaOptionsExecutor;
         private String deployMode;
         private boolean enableDebug;
+        private String debugPort;
 
         private String mainClass;
 
         private String serviceJar;
+
+        private String blockManagerPort;
+        private String driverPort;
+        private String driverMemory;
 
         @Optional
         private List<String> jars;
@@ -60,24 +64,16 @@ public class SimpleSparkEtlFilWatcherConfig {
         @Optional
         private long pollInSeconds;
         private String filePattern;
-
-    }
-
-    @Data
-    @Builder(toBuilder = true)
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class LoadConfig {
+        private String dataConfigYaml;
 
         @Optional
         private String destinationDir;
 
         @Optional
-        private String filePattern;
+        private String DestinationFilePattern;
 
         @Optional
         private String destinationDB;
-
     }
 
     public static SimpleSparkEtlFilWatcherConfig loadConfig(){

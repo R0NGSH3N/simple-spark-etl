@@ -11,14 +11,11 @@ import com.r0ngsh3n.simplesparketl.job.core.loader.Loader;
 import com.r0ngsh3n.simplesparketl.job.core.transformer.Transformer;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 @Getter
 @Setter
-public class SampleJobConfig extends AbstractModule {
+public class SampleJobConfig extends AbstractModule{
 
     private String jobName;
     private Boolean enableHiveSupport;
@@ -85,6 +82,6 @@ public class SampleJobConfig extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(Extractor.class).to(DBDataExtractor.class);
+        this.bind(Extractor.class).to(DBDataExtractor.class);
     }
 }

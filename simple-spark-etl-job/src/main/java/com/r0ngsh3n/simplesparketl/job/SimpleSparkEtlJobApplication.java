@@ -21,7 +21,7 @@ public final class SimpleSparkEtlJobApplication {
         //call jobRunner.run to start the process
         Injector injector = Guice.createInjector(new SampleJobConfig());
         JobRunner jobRunner = injector.getInstance(JobRunner.class);
-        jobRunner.run();
+//        jobRunner.run();
     }
-
 }
+

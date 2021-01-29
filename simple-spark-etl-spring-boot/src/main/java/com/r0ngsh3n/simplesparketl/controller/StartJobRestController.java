@@ -26,21 +26,21 @@ public class StartJobRestController {
     private static final String MYSQL_USERNAME = "root";
     private static final String MYSQL_PWD = "123";
 
-    @Autowired
-    private java.util.Map<String, JobRunner> jobMapping;
-
-    @GetMapping("/selectJob/{jobName}")
-    public String selectJob(@PathVariable String jobName) {
-        JobRunner jobRunner = jobMapping.get(jobName);
-        SampleJobEvent event = new SampleJobEvent();
-        JobContext<SampleJobEvent> jobContext = new JobContext<>();
-        jobContext.setTarget(event);
-        if (jobRunner != null) {
-            jobRunner.run(jobContext);
-        }
-
-        return "Successful";
-    }
+//    @Autowired
+//    private java.util.Map<String, JobRunner> jobMapping;
+//
+//    @GetMapping("/selectJob/{jobName}")
+//    public String selectJob(@PathVariable String jobName) {
+//        JobRunner jobRunner = jobMapping.get(jobName);
+//        SampleJobEvent event = new SampleJobEvent();
+//        JobContext<SampleJobEvent> jobContext = new JobContext<>();
+//        jobContext.setTarget(event);
+//        if (jobRunner != null) {
+//            jobRunner.run(jobContext);
+//        }
+//
+//        return "Successful";
+//    }
 
     @GetMapping("/startJob/{jobName}/{partition}")
     public void startJob(@PathVariable String jobName, @PathVariable int partition) throws AnalysisException {
@@ -78,14 +78,6 @@ public class StartJobRestController {
         jdbcDF.createGlobalTempView("wealth_accounts");
 
         spark.sql("select Country_Code, sum(1995) from global_temp.wealth_accounts group by Country_Code").show();
-
-    }
-
-    private JobConfig createJobConfig() {
-        JobConfig jobConfig = new JobConfig();
-        jobConfig.setJobName("Test");
-
-        return jobConfig;
 
     }
 }

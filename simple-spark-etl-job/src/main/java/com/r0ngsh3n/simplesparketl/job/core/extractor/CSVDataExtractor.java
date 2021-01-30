@@ -1,11 +1,11 @@
 package com.r0ngsh3n.simplesparketl.job.core.extractor;
 
-import com.r0ngsh3n.simplesparketl.job.core.JobConfig;
+import com.r0ngsh3n.simplesparketl.job.config.JobConfig;
 import com.r0ngsh3n.simplesparketl.job.core.JobContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
-public class CSVDataExtractor<T> extends AbstractExtractor{
+public class CSVDataExtractor extends AbstractExtractor{
 
     @Override
     public void extract(JobContext jobContext) {

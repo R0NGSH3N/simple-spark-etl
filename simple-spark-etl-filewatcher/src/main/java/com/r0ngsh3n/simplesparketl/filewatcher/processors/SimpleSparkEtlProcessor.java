@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 
 @Slf4j
-public class SimpleSparkEtlFileProcessor {
+public class SimpleSparkEtlProcessor {
     private final SimpleSparkEtlFilWatcherConfig simpleSparkEtlFilWatcherConfig;
     private final Function<SimpleSparkEtlFilWatcherConfig, Lock> locks;
     private final AtomicBoolean running;
@@ -21,7 +21,7 @@ public class SimpleSparkEtlFileProcessor {
 
     private final List<SimpleSparkEtlFilWatcherConfig.ExtractConfig> extractConfigDirectoryList;
 
-    public SimpleSparkEtlFileProcessor(SimpleSparkEtlFilWatcherConfig config, Function<SimpleSparkEtlFilWatcherConfig, Lock> locks) {
+    public SimpleSparkEtlProcessor(SimpleSparkEtlFilWatcherConfig config, Function<SimpleSparkEtlFilWatcherConfig, Lock> locks) {
         this.simpleSparkEtlFilWatcherConfig = config;
         this.locks = locks == null ? t -> new ReentrantLock() : locks;
         this.running = new AtomicBoolean(true);

@@ -1,6 +1,6 @@
 package com.r0ngsh3n.simplesparketl.job.core.extractor;
 
-import com.r0ngsh3n.simplesparketl.job.core.JobConfig;
+import com.r0ngsh3n.simplesparketl.job.config.JobConfig;
 import org.apache.spark.sql.SparkSession;
 
 import java.util.Map;

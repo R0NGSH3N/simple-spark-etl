@@ -1,4 +1,4 @@
-package com.r0ngsh3n.simplesparketl.job.core;
+package com.r0ngsh3n.simplesparketl.job.config;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,5 +23,9 @@ public class JobConfig {
 
     private String inputCSVFileDir;
     private String outputCSVFileDir;
+
+    private String extractorClassName;
+    private String transformClassName;
+    private String loaderClassName;
 
 }

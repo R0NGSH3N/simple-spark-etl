@@ -11,6 +11,7 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,6 +79,7 @@ public class StartJobRestController {
         jdbcDF.createGlobalTempView("wealth_accounts");
 
         spark.sql("select Country_Code, sum(1995) from global_temp.wealth_accounts group by Country_Code").show();
+        SparkSubmitter sparkSubmitter = new
 
     }
 }

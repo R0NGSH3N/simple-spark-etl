@@ -16,7 +16,6 @@ public abstract class AbstractExtractor<T> implements Extractor<T>{
     }
 
     public abstract void postProcess(JobContext<T> jobContext);
-
     public void setJobConfig(JobConfig jobConfig) {
         this.jobConfig = jobConfig;
     }

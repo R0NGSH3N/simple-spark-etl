@@ -4,7 +4,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.r0ngsh3n.simplesparketl.job.config.JobConfigModuleBuilder;
 import com.r0ngsh3n.simplesparketl.job.core.JobRunner;
-import com.r0ngsh3n.simplesparketl.job.module.JobRunnerConfigModule;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.*;
 

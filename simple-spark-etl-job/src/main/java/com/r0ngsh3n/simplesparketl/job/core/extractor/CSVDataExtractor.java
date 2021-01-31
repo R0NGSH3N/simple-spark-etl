@@ -16,5 +16,4 @@ public abstract class CSVDataExtractor<T> extends AbstractExtractor<T>{
         Dataset<Row> csvDF =spark.read().option("header", true).csv(jobConfig.getInputCSVFileDir());
         jobContext.setDataSet(csvDF);
     }
-
 }

@@ -9,11 +9,11 @@ import org.apache.spark.sql.Row;
 
 @Getter
 @Setter
-public class SampleLoader implements Loader {
+public class SampleLoader<SampleJobEvent> implements Loader<SampleJobEvent> {
     private String outputDir;
 
     @Override
-    public void load(JobContext jobContext) {
+    public void load(JobContext<SampleJobEvent> jobContext) {
         Dataset<Row> dataset = jobContext.getDataSet();
         dataset.write().option("header", true).csv(outputDir + "output.csv");
     }

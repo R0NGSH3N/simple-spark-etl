@@ -1,16 +1,15 @@
 package com.r0ngsh3n.simplesparketl.job.config;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.r0ngsh3n.simplesparketl.job.module.JobRunnerConfigModule;
+import com.r0ngsh3n.simplesparketl.job.samplejob.SampleJobRunnerConfigModule;
 
 import java.io.*;
 
 public final class JobConfigModuleBuilder {
-   private JobConfig jobConfig;
+    private JobConfig jobConfig;
 
-    public JobConfigModuleBuilder setConfigFile(String configFileName){
+    public JobConfigModuleBuilder setConfigFile(String configFileName) {
         try {
             InputStreamReader reader = new InputStreamReader(new FileInputStream(new File(configFileName)));
             this.jobConfig = new ObjectMapper(new YAMLFactory()).readValue(reader, JobConfig.class);
@@ -22,13 +21,11 @@ public final class JobConfigModuleBuilder {
     }
 
 
-    public JobRunnerConfigModule build(){
-        JobRunnerConfigModule configModule = new JobRunnerConfigModule();
-
+    public SampleJobRunnerConfigModule build() {
+        SampleJobRunnerConfigModule configModule = new SampleJobRunnerConfigModule();
         configModule.setJobConfig(this.jobConfig);
-        return new JobRunnerConfigModule();
+        return configModule;
     }
-
 
 
 }

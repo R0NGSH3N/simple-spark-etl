@@ -7,10 +7,10 @@ import org.apache.spark.sql.Row;
 
 import java.util.Properties;
 
-public class DBDataExtractor extends AbstractExtractor {
+public abstract class DBDataExtractor<T> extends AbstractExtractor<T> {
 
     @Override
-    public void extract(JobContext jobContext) {
+    public void extract(JobContext<T> jobContext) {
         JobConfig jobConfig = getJobConfig();
         if(this.spark == null){
             initSparkSession(jobConfig);
@@ -25,5 +25,6 @@ public class DBDataExtractor extends AbstractExtractor {
         jobContext.setDataSet(jdbcDF);
 
     }
+
 
 }

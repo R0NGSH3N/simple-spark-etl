@@ -22,7 +22,8 @@ public class SparkSubmitter {
       this.sparkLauncherSupplier = SparkLauncher::new;
    }
 
-   public CompletableFuture<String> submit(String fileName, SimpleSparkEtlFilWatcherConfig.ExtractConfig extractConfig){
+
+   public CompletableFuture<String> submit( SimpleSparkEtlFilWatcherConfig.ExtractConfig extractConfig, String... fileName){
 
       SparkLauncher launcher = sparkLauncherSupplier.get();
 

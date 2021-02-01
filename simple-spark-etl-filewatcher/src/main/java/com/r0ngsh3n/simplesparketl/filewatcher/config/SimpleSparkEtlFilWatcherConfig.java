@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SimpleSparkEtlFilWatcherConfig {
-    private List<ExtractConfig> extractConfigDirectoryList;
+//    private List<ExtractConfig> extractConfigDirectoryList;
     private SparkConfig sparkConfig;
 
     @Data
@@ -31,20 +31,30 @@ public class SimpleSparkEtlFilWatcherConfig {
         private String home;
         private String master;
 
+        @Optional
         private String bindingAddress;
+        @Optional
         private String ports;
+        @Optional
         private String executorMemory;
+        @Optional
         private String extraJavaOptionsExecutor;
+        @Optional
         private String deployMode;
+        @Optional
         private boolean enableDebug;
+        @Optional
         private String debugPort;
 
         private String mainClass;
 
         private String serviceJar;
 
+        @Optional
         private String blockManagerPort;
+        @Optional
         private String driverPort;
+        @Optional
         private String driverMemory;
 
         @Optional

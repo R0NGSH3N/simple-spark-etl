@@ -2,6 +2,7 @@ package com.r0ngsh3n.simplesparketl.filewatcher.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.r0ngsh3n.simplesparketl.job.config.SparkConfig;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigBeanFactory;
 import com.typesafe.config.ConfigFactory;
@@ -12,13 +13,15 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.typesafe.config.Optional;
 
+import java.util.List;
+
 @Data
 @Builder
 @Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
 public class SimpleSparkEtlFilWatcherConfig {
-//    private List<ExtractConfig> extractConfigDirectoryList;
+    private List<SourceConfig> extractConfigDirectoryList;
     private SparkConfig sparkConfig;
 
     @Data

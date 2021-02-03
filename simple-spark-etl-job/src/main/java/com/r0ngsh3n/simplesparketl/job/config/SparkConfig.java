@@ -17,6 +17,7 @@ public class SparkConfig {
     private String home;
     private String master;
     private String jobName;
+    private String jobConfigFileName;
     private Map<String, String> sparkSessionOptions;
 
     @Optional

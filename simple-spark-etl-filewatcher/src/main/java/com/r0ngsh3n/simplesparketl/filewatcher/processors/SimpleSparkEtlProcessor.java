@@ -1,6 +1,7 @@
 package com.r0ngsh3n.simplesparketl.filewatcher.processors;
 
 import com.r0ngsh3n.simplesparketl.filewatcher.config.SimpleSparkEtlFilWatcherConfig;
+import com.r0ngsh3n.simplesparketl.job.core.submitter.SparkSubmitter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CompletableFuture;
@@ -49,20 +50,20 @@ public class SimpleSparkEtlProcessor {
         try {
             log.info("start watching folder... {}", Thread.currentThread().getName());
 
-//            while (running.get()) {
-//                if (acquireLock(lock)) {
-//                    extractConfigDirectoryList.stream().map(extractConfig -> CompletableFuture.runAsync(() -> {
-//                        Function<String, CompletableFuture<String>> sparkSubmitter = createSparkProcessor(extractConfig);
-//                        FileProcessor fileProcessor = new FileProcessor(extractConfig, sparkSubmitter);
-//                        fileProcessor.process();
-//                    }, executorService)).collect(Collectors.toList()).stream().map(CompletableFuture::join).collect(Collectors.toList());
-//
-////                    CompletableFuture[] futures = extractConfigDirectoryList.stream().map(this::start)
-////                            .toArray(CompletableFuture[]::new);
-////                    CompletableFuture.allOf(futures).join();
-//                    lock.unlock();
-//                }
-//            }
+            while (running.get()) {
+                if (acquireLock(lock)) {
+                    extractConfigDirectoryList.stream().map(extractConfig -> CompletableFuture.runAsync(() -> {
+                        Function<String, CompletableFuture<String>> sparkSubmitter = createSparkProcessor(extractConfig);
+                        FileProcessor fileProcessor = new FileProcessor(extractConfig, sparkSubmitter);
+                        fileProcessor.process();
+                    }, executorService)).collect(Collectors.toList()).stream().map(CompletableFuture::join).collect(Collectors.toList());
+
+//                    CompletableFuture[] futures = extractConfigDirectoryList.stream().map(this::start)
+//                            .toArray(CompletableFuture[]::new);
+//                    CompletableFuture.allOf(futures).join();
+                    lock.unlock();
+                }
+            }
         } finally {
             running.set(false);
             lock.unlock();

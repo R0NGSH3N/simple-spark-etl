@@ -1,18 +1,14 @@
 package com.r0ngsh3n.simplesparketl.service;
 
-import com.r0ngsh3n.simplesparketl.config.SparkConfigCluster;
+import com.r0ngsh3n.simplesparketl.config.SampleJobSparkConfigCluster;
+import com.r0ngsh3n.simplesparketl.job.config.SparkConfig;
 import com.r0ngsh3n.simplesparketl.job.core.jobrunner.JobRunner;
+import com.r0ngsh3n.simplesparketl.job.core.submitter.SparkSubmitter;
 import org.apache.spark.sql.AnalysisException;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import scala.collection.immutable.Map;
-
-import java.util.Properties;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public class SimpleSparkEtlSparkService {
@@ -21,24 +17,34 @@ public class SimpleSparkEtlSparkService {
     private static final String MYSQL_USERNAME = "root";
     private static final String MYSQL_PWD = "123";
     @Autowired
-    private SparkConfigCluster sparkConfig;
+    private SampleJobSparkConfigCluster sparkConfig;
 
     @Autowired
     private JobRunner standaloneJobRunner;
+
+    @Autowired
+    private SparkConfig standaloneSparkConfig;
+
+    @Autowired
+    private SparkConfig clusterSparkConfig;
+
+    public void runSparkInCluster() {
+        SparkSubmitter sparkSubmitter = new SparkSubmitter(this.clusterSparkConfig);
+        sparkSubmitter.submit();
+    }
 
     @Async
     public void runSparkStandalone(String jobName, int partition ) throws AnalysisException {
 
         SparkSession spark = SparkSession.builder()
-                .appName(jobName)
-                .master("local")
+                .appName(standaloneSparkConfig.getJobName())
+                .master(standaloneSparkConfig.getMaster())
 //                .config("some option", "some value")
 //                .enableHiveSupport()
                 .getOrCreate();
 
         //set up sparkSession runtime arguments
-        spark.conf().set("spark.sql.shuffle.partitions", partition);
-        spark.conf().set("spark.executor.memory", "2g");
+        standaloneSparkConfig.getSparkSessionOptions().forEach((k, v) -> spark.conf().set(k, v));
 
         standaloneJobRunner.run(spark);
 

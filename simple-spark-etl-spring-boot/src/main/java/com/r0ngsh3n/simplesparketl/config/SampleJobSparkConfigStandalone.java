@@ -55,6 +55,7 @@ public class SampleJobSparkConfigStandalone {
         Map<String, String> sessionConfigs = new HashMap<>();
         sessionConfigs.put("spark.sql.shuffle.partitions", partition);
         sessionConfigs.put("spark.executor.memory", "2g");
+        sparkConfig.setSparkSessionOptions(sessionConfigs);
         return sparkConfig;
 
     }

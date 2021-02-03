@@ -1,7 +1,7 @@
-package com.r0ngsh3n.simplesparketl.filewatcher.processors;
+package com.r0ngsh3n.simplesparketl.job.core.submitter;
 
 import com.google.common.collect.ImmutableList;
-import com.r0ngsh3n.simplesparketl.filewatcher.config.SimpleSparkEtlFilWatcherConfig;
+import com.r0ngsh3n.simplesparketl.job.config.SparkConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.spark.launcher.SparkAppHandle;
@@ -14,16 +14,16 @@ import java.util.function.Supplier;
 
 @Slf4j
 public class SparkSubmitter {
-   private final SimpleSparkEtlFilWatcherConfig.SparkConfig sparkConfig;
+   private final SparkConfig sparkConfig;
    private final Supplier<SparkLauncher> sparkLauncherSupplier;
 
-   public SparkSubmitter(SimpleSparkEtlFilWatcherConfig config){
-      this.sparkConfig = config.getSparkConfig();
+   public SparkSubmitter(SparkConfig config){
+      this.sparkConfig = config;
       this.sparkLauncherSupplier = SparkLauncher::new;
    }
 
 
-   public CompletableFuture<String> submit(SimpleSparkEtlFilWatcherConfig.SourceConfig sourceConfig, String... fileName){
+   public CompletableFuture<String> submit(String... fileName){
 
       SparkLauncher launcher = sparkLauncherSupplier.get();
 
@@ -35,10 +35,6 @@ public class SparkSubmitter {
       String blockManagerPort = sparkConfig.getBlockManagerPort();
       String bindingAddress = sparkConfig.getBindingAddress();
       String driverPort = sparkConfig.getDriverPort();
-      String configFile = sourceConfig.getDataConfigYaml();
-      String databaseURL = sourceConfig.getDestinationDB();
-      String destinationFile = sourceConfig.getDestinationDir();
-      String destinationFilePattern = sourceConfig.getDestinationFilePattern();
 
       if(StringUtils.isNotBlank(bindingAddress)){
          launcher.setConf("spark.driver.bindAddress", bindingAddress);
@@ -68,15 +64,12 @@ public class SparkSubmitter {
       }
 
       ImmutableList.Builder<String> appArgsBuilder = ImmutableList.<String>builder()
-              .add(fileName)
-              .add(configFile)
-              .add("--databaseUrl" + databaseURL)
-              .add("--outputDir" + destinationFile)
-              .add("--outputFilePattern" + destinationFilePattern);
+//              .add(fileName)
+              .add(sparkConfig.getJobConfigFileName());
 
       launcher.setSparkHome(sparkHome)
               .setMaster(sparkMaster)
-              .setAppName("ETL-" + fileName)
+              .setAppName("ETL-" + sparkConfig.getJobName())
               .setAppResource(serviceJar)
               .setVerbose(false)
               .addAppArgs(appArgsBuilder.build().toArray(new String[0]));

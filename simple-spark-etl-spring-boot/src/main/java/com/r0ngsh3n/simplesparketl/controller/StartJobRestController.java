@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Getter
 public class StartJobRestController {
 
-
     @Autowired
     private SimpleSparkEtlSparkService sparkService;
 
@@ -39,7 +38,7 @@ public class StartJobRestController {
         if (sparkMode.equals("Standalone")) {
             sparkService.runSparkStandalone(jobName, partition);
         } else {
-
+            sparkService.runSparkInCluster();
         }
 
     }

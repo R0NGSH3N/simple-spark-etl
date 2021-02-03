@@ -1,22 +1,14 @@
 package com.r0ngsh3n.simplesparketl.filewatcher.processors;
 
-import com.google.common.collect.ImmutableList;
 import com.r0ngsh3n.simplesparketl.filewatcher.config.SimpleSparkEtlFilWatcherConfig;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
-import org.apache.spark.launcher.SparkAppHandle;
-import org.apache.spark.launcher.SparkLauncher;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class SimpleSparkEtlProcessor {
@@ -45,9 +37,9 @@ public class SimpleSparkEtlProcessor {
     }
      **/
 
-    private Function<String, CompletableFuture<String>> createSparkProcessor(SimpleSparkEtlFilWatcherConfig.ExtractConfig extractConfig) {
+    private Function<String, CompletableFuture<String>> createSparkProcessor(SimpleSparkEtlFilWatcherConfig.SourceConfig sourceConfig) {
         SparkSubmitter sparkSubmitter = new SparkSubmitter(this.simpleSparkEtlFilWatcherConfig);
-        return dataFile -> sparkSubmitter.submit(extractConfig, dataFile);
+        return dataFile -> sparkSubmitter.submit(sourceConfig, dataFile);
     }
 
     public void run() {

@@ -23,7 +23,7 @@ public class SparkSubmitter {
    }
 
 
-   public CompletableFuture<String> submit( SimpleSparkEtlFilWatcherConfig.ExtractConfig extractConfig, String... fileName){
+   public CompletableFuture<String> submit(SimpleSparkEtlFilWatcherConfig.SourceConfig sourceConfig, String... fileName){
 
       SparkLauncher launcher = sparkLauncherSupplier.get();
 
@@ -35,10 +35,10 @@ public class SparkSubmitter {
       String blockManagerPort = sparkConfig.getBlockManagerPort();
       String bindingAddress = sparkConfig.getBindingAddress();
       String driverPort = sparkConfig.getDriverPort();
-      String configFile = extractConfig.getDataConfigYaml();
-      String databaseURL = extractConfig.getDestinationDB();
-      String destinationFile = extractConfig.getDestinationDir();
-      String destinationFilePattern = extractConfig.getDestinationFilePattern();
+      String configFile = sourceConfig.getDataConfigYaml();
+      String databaseURL = sourceConfig.getDestinationDB();
+      String destinationFile = sourceConfig.getDestinationDir();
+      String destinationFilePattern = sourceConfig.getDestinationFilePattern();
 
       if(StringUtils.isNotBlank(bindingAddress)){
          launcher.setConf("spark.driver.bindAddress", bindingAddress);

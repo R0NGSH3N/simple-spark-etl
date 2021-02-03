@@ -22,6 +22,7 @@ public class SampleJobRunnerConfigModule implements Module{
 
     public Extractor<SampleJobEvent> extractor(){
         DefaultDBDataExtractor<SampleJobEvent>  extractor = new DefaultDBDataExtractor<>();
+        extractor.setJobConfig(this.jobConfig);
         return extractor;
     }
 

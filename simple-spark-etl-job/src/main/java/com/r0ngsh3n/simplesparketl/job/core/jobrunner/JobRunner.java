@@ -1,16 +1,20 @@
-package com.r0ngsh3n.simplesparketl.job.core;
+package com.r0ngsh3n.simplesparketl.job.core.jobrunner;
 
 import com.google.inject.Inject;
 import com.r0ngsh3n.simplesparketl.job.config.JobConfig;
+import com.r0ngsh3n.simplesparketl.job.core.JobContext;
 import com.r0ngsh3n.simplesparketl.job.core.extractor.Extractor;
 import com.r0ngsh3n.simplesparketl.job.core.loader.Loader;
 import com.r0ngsh3n.simplesparketl.job.core.transformer.Transformer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.apache.spark.sql.SparkSession;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
-public class JobRunner
+public class JobRunner {
 
     private JobConfig jobConfig;
     private Extractor extractor;
@@ -31,11 +35,11 @@ public class JobRunner
     }
 
 
-    public void run(){
+    public void run(SparkSession spark){
         JobContext jobContext = new JobContext();
-        this.extractor.extract(jobContext);
-        this.transformer.tranform(jobContext);
-        this.loader.load(jobContext);
+        this.extractor.extract(jobContext, spark);
+        this.transformer.tranform(jobContext, spark);
+        this.loader.load(jobContext, spark);
     }
 
 }

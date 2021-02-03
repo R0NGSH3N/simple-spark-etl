@@ -20,26 +20,26 @@ public abstract class AbstractExtractor<T> implements Extractor<T>{
         this.jobConfig = jobConfig;
     }
 
-    public void initSparkSession(JobConfig jobconf) {
-        if (jobconf.getEnableHiveSupport()) {
-            this.spark = SparkSession.builder()
-                    .appName(jobconf.getJobName())
-                    .master("local")
-                    .enableHiveSupport()
-                    .getOrCreate();
-        } else {
-            this.spark = SparkSession.builder()
-                    .appName(jobconf.getJobName())
-                    .master("local")
-                    .getOrCreate();
-        }
-
-        Map<String, String> sesstionOptions = jobconf.getSparkSessionOptions();
-        for (String key : sesstionOptions.keySet()) {
-            spark.conf().set(key, sesstionOptions.get(key));
-        }
-
-    }
+//    public void initSparkSession(JobConfig jobconf) {
+//        if (jobconf.getEnableHiveSupport()) {
+//            this.spark = SparkSession.builder()
+//                    .appName(jobconf.getJobName())
+//                    .master("local")
+//                    .enableHiveSupport()
+//                    .getOrCreate();
+//        } else {
+//            this.spark = SparkSession.builder()
+//                    .appName(jobconf.getJobName())
+//                    .master("local")
+//                    .getOrCreate();
+//        }
+//
+//        Map<String, String> sesstionOptions = jobconf.getSparkSessionOptions();
+//        for (String key : sesstionOptions.keySet()) {
+//            spark.conf().set(key, sesstionOptions.get(key));
+//        }
+//
+//    }
 
 
 }

@@ -3,8 +3,6 @@ package com.r0ngsh3n.simplesparketl.filewatcher.processors;
 import com.r0ngsh3n.simplesparketl.filewatcher.config.SimpleSparkEtlFilWatcherConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,10 +26,10 @@ public class FileProcessor {
 
     private Function<String, CompletableFuture<String>> fileHandler;
 
-    public FileProcessor(SimpleSparkEtlFilWatcherConfig.ExtractConfig extractConfig, Function<String, CompletableFuture<String>> fileHandler){
+    public FileProcessor(SimpleSparkEtlFilWatcherConfig.SourceConfig sourceConfig, Function<String, CompletableFuture<String>> fileHandler){
         this.fileHandler = fileHandler;
-        this.directory = extractConfig.getDirectory();
-        this.filePattern = Pattern.compile(extractConfig.getFilePattern());
+        this.directory = sourceConfig.getDirectory();
+        this.filePattern = Pattern.compile(sourceConfig.getFilePattern());
 
     }
 

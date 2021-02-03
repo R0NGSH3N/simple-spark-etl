@@ -9,9 +9,6 @@ import java.util.Map;
 @Getter
 public class JobConfig {
 
-    private String jobName;
-
-    private Map<String, String> sparkSessionOptions;
 
     private Boolean enableHiveSupport = false;
     private String sourceFormat;

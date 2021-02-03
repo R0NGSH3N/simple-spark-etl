@@ -4,7 +4,6 @@ import com.r0ngsh3n.simplesparketl.job.core.JobContext;
 
 public class DefaultDBDataExtractor<T> extends DBDataExtractor<T>{
 
-    @Override
     public void postProcess(JobContext<T> jobContext) {
         //do nothing
     }

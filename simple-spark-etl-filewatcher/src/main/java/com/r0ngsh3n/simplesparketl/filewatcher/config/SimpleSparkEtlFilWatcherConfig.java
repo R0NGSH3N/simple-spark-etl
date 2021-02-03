@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.typesafe.config.Optional;
 
-import java.util.List;
-
 @Data
 @Builder
 @Slf4j
@@ -24,51 +22,10 @@ public class SimpleSparkEtlFilWatcherConfig {
     private SparkConfig sparkConfig;
 
     @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class SparkConfig{
-        private String home;
-        private String master;
-
-        @Optional
-        private String bindingAddress;
-        @Optional
-        private String ports;
-        @Optional
-        private String executorMemory;
-        @Optional
-        private String extraJavaOptionsExecutor;
-        @Optional
-        private String deployMode;
-        @Optional
-        private boolean enableDebug;
-        @Optional
-        private String debugPort;
-
-        private String mainClass;
-
-        private String serviceJar;
-
-        @Optional
-        private String blockManagerPort;
-        @Optional
-        private String driverPort;
-        @Optional
-        private String driverMemory;
-
-        @Optional
-        private List<String> jars;
-
-        @Optional
-        private int getSparkRetryCount;
-    }
-
-    @Data
     @Builder(toBuilder = true)
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ExtractConfig {
+    public static class SourceConfig {
         public String directory;
 
         @Optional

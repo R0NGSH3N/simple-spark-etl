@@ -46,7 +46,7 @@ public class SimpleSparkEtlSparkService {
         //set up sparkSession runtime arguments
         standaloneSparkConfig.getSparkSessionOptions().forEach((k, v) -> spark.conf().set(k, v));
 
-        standaloneJobRunner.run(spark);
+        standaloneJobRunner.run(spark, null);
 
 //        Map<String, String> sparkConf = spark.conf().getAll();
 //

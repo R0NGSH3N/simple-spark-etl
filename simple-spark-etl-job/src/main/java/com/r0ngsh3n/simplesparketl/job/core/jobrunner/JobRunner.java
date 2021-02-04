@@ -14,19 +14,19 @@ import org.apache.spark.sql.SparkSession;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobRunner {
+public class JobRunner<T> {
 
     private JobConfig jobConfig;
-    private Extractor extractor;
-    private Loader loader;
-    private Transformer transformer;
+    private Extractor<T> extractor;
+    private Loader<T> loader;
+    private Transformer<T> transformer;
 
     @Inject
     public JobRunner(
             JobConfig jobConfig,
-            Extractor extractor,
-            Transformer transformer,
-            Loader loader
+            Extractor<T> extractor,
+            Transformer<T> transformer,
+            Loader<T> loader
     ) {
         this.jobConfig = jobConfig;
         this.extractor = extractor;
@@ -37,8 +37,11 @@ public class JobRunner {
         loader.setJobConfig(jobConfig);
     }
 
-    public void run(SparkSession spark){
-        JobContext jobContext = new JobContext();
+    public void run(SparkSession spark, T target){
+        JobContext<T> jobContext = new JobContext();
+        if(target != null){
+            jobContext.setTarget(target);
+        }
         this.extractor.extract(jobContext, spark);
         this.transformer.tranform(jobContext, spark);
         this.loader.load(jobContext, spark);

@@ -39,13 +39,17 @@ public final class SimpleSparkEtlJobApplication {
         }
 
         //use Guice.createInjector to create injector
-        Injector injector = Guice.createInjector(
-                new JobConfigModuleBuilder().setConfigFile(argsList[1]).build()
-        );
+        try {
+            Injector injector = Guice.createInjector(
+                    new JobConfigModuleBuilder().setConfigFile(argsList[1]).build()
+            );
 
-        JobRunner jobRunner = injector.getInstance(JobRunner.class);
-        SparkSession spark = SparkSession.builder().getOrCreate();
-        jobRunner.run(spark, null);
+            JobRunner jobRunner = injector.getInstance(JobRunner.class);
+            SparkSession spark = SparkSession.builder().getOrCreate();
+            jobRunner.run(spark, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void printHelp(Options options){

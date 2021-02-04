@@ -21,8 +21,10 @@ public class JobConfig {
     private String inputCSVFileDir;
     private String outputCSVFileDir;
 
-    private String extractorClassName;
-    private String transformClassName;
-    private String loaderClassName;
+//    private String extractorClassName;
+//    private String transformClassName;
+//    private String loaderClassName;
+
+    private String jobRunnerConfigureModuleClazzName;
 
 }

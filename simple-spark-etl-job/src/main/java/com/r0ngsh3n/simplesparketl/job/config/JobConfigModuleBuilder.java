@@ -21,8 +21,8 @@ public final class JobConfigModuleBuilder {
     }
 
 
-    public SampleJobRunnerConfigModule build() {
-        SampleJobRunnerConfigModule configModule = new SampleJobRunnerConfigModule();
+    public JobRunnerConfigureModule build() throws Exception{
+        JobRunnerConfigureModule configModule = (JobRunnerConfigureModule)Class.forName(this.jobConfig.getJobRunnerConfigureModuleClazzName()).getConstructor().newInstance();
         configModule.setJobConfig(this.jobConfig);
         return configModule;
     }

@@ -3,6 +3,7 @@ package com.r0ngsh3n.simplesparketl.job.samplejob;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.r0ngsh3n.simplesparketl.job.config.JobConfig;
+import com.r0ngsh3n.simplesparketl.job.config.JobRunnerConfigureModule;
 import com.r0ngsh3n.simplesparketl.job.core.extractor.DefaultDBDataExtractor;
 import com.r0ngsh3n.simplesparketl.job.core.extractor.Extractor;
 import com.r0ngsh3n.simplesparketl.job.core.loader.Loader;
@@ -16,7 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 @Getter
 @Setter
 @Slf4j
-public class SampleJobRunnerConfigModule implements Module{
+public class SampleJobRunnerConfigModule implements JobRunnerConfigureModule {
 
     private JobConfig jobConfig;
 

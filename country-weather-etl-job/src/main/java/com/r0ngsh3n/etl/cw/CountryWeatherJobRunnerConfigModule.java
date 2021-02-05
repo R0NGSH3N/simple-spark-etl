@@ -1,7 +1,6 @@
-package com.r0ngsh3n.simplesparketl.job.samplejob;
+package com.r0ngsh3n.etl.cw;
 
 import com.google.inject.Binder;
-import com.google.inject.Module;
 import com.r0ngsh3n.simplesparketl.job.config.JobConfig;
 import com.r0ngsh3n.simplesparketl.job.config.JobRunnerConfigureModule;
 import com.r0ngsh3n.simplesparketl.job.core.extractor.DefaultDBDataExtractor;
@@ -12,29 +11,27 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.InvocationTargetException;
-
 @Getter
 @Setter
 @Slf4j
-public class SampleJobRunnerConfigModule implements JobRunnerConfigureModule {
+public class CountryWeatherJobRunnerConfigModule implements JobRunnerConfigureModule {
 
     private JobConfig jobConfig;
 
-    public Extractor<SampleJobEvent> extractor(){
-        DefaultDBDataExtractor<SampleJobEvent>  extractor = new DefaultDBDataExtractor<>();
+    public Extractor<CountryWeatherJobEvent> extractor(){
+        DefaultDBDataExtractor<CountryWeatherJobEvent>  extractor = new DefaultDBDataExtractor<>();
         extractor.setJobConfig(this.jobConfig);
         return extractor;
     }
 
 //    @Bean(name="SampleTransformer")
-    public Transformer<SampleJobEvent> transformer(){
-        return new SampleTranformer<SampleJobEvent>();
+    public Transformer<CountryWeatherJobEvent> transformer(){
+        return new CountryWeatherTranformer();
     }
 
 //    @Bean(name="sampleLoader")
-    public Loader<SampleJobEvent> loader(){
-        return new SampleLoader<SampleJobEvent>();
+    public Loader<CountryWeatherJobEvent> loader(){
+        return new CountryWeatherLoader();
     }
 
     @Override

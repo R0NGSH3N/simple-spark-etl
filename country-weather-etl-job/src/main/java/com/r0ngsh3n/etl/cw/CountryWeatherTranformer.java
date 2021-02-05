@@ -1,4 +1,4 @@
-package com.r0ngsh3n.simplesparketl.job.samplejob;
+package com.r0ngsh3n.etl.cw;
 
 import com.r0ngsh3n.simplesparketl.job.config.JobConfig;
 import com.r0ngsh3n.simplesparketl.job.core.JobContext;
@@ -11,13 +11,13 @@ import org.apache.spark.sql.SparkSession;
 
 @Getter
 @Setter
-public class SampleTranformer<SampleJobEvent> implements Transformer<SampleJobEvent> {
+public class CountryWeatherTranformer implements Transformer<CountryWeatherJobEvent> {
 
     private JobConfig jobConfig;
 
     @Override
-    public void tranform(JobContext<SampleJobEvent> jobContext, SparkSession spark) {
-        SampleJobEvent jobEvent = jobContext.getTarget();
+    public void tranform(JobContext<CountryWeatherJobEvent> jobContext, SparkSession spark) {
+        CountryWeatherJobEvent jobEvent = jobContext.getTarget();
         Dataset<Row> dataset = jobContext.getDataSet();
 //        if (!jobEvent.ValidateSum(dataset)) {
 //            throw new RuntimeException("validation failed");

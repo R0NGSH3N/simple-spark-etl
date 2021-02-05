@@ -1,5 +1,8 @@
 package com.r0ngsh3n.simplesparketl.config;
 
+import com.r0ngsh3n.etl.cw.CountryWeatherJobEvent;
+import com.r0ngsh3n.etl.cw.CountryWeatherLoader;
+import com.r0ngsh3n.etl.cw.CountryWeatherTranformer;
 import com.r0ngsh3n.simplesparketl.job.config.JobConfig;
 import com.r0ngsh3n.simplesparketl.job.config.SparkConfig;
 import com.r0ngsh3n.simplesparketl.job.core.extractor.DBDataExtractor;
@@ -7,9 +10,6 @@ import com.r0ngsh3n.simplesparketl.job.core.extractor.Extractor;
 import com.r0ngsh3n.simplesparketl.job.core.jobrunner.JobRunner;
 import com.r0ngsh3n.simplesparketl.job.core.loader.Loader;
 import com.r0ngsh3n.simplesparketl.job.core.transformer.Transformer;
-import com.r0ngsh3n.simplesparketl.job.samplejob.SampleJobEvent;
-import com.r0ngsh3n.simplesparketl.job.samplejob.SampleLoader;
-import com.r0ngsh3n.simplesparketl.job.samplejob.SampleTranformer;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -21,11 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@PropertySource("classpath:spark-config-standalone.yml")
+@PropertySource("classpath:country-weather-job-standalone.yml")
 @ConfigurationProperties
 @Getter
 @Setter
-public class SampleJobSparkConfigStandalone {
+public class CountryWeatherJobSparkConfigStandalone {
 
     private String jobName;
     private String master;
@@ -35,19 +35,19 @@ public class SampleJobSparkConfigStandalone {
     private String password;
     private String dbTable;
 
-    @Bean(name = "SampleJobConfig")
-    public JobConfig sampleJobConfig(){
-        JobConfig sampleJobConfig = new JobConfig();
-        sampleJobConfig.setDbConnectionURL(this.dbConnectionURL);
-        sampleJobConfig.setUserName(this.userName);
-        sampleJobConfig.setPassword(this.password);
-        sampleJobConfig.setDbTable(this.dbTable);
+    @Bean(name = "CountryWeatherJobConfig")
+    public JobConfig CountryWeatherJobConfig(){
+        JobConfig CountryWeatherJobConfig= new JobConfig();
+        CountryWeatherJobConfig.setDbConnectionURL(this.dbConnectionURL);
+        CountryWeatherJobConfig.setUserName(this.userName);
+        CountryWeatherJobConfig.setPassword(this.password);
+        CountryWeatherJobConfig.setDbTable(this.dbTable);
 
-        return sampleJobConfig;
+        return CountryWeatherJobConfig;
     }
 
-    @Bean(name = "standaloneSparkConfig")
-    public SparkConfig standaloneSparkConfig(){
+    @Bean(name = "CountryWeatherSparkConfig")
+    public SparkConfig CountryWeatherSparkConfig(){
         SparkConfig sparkConfig = new SparkConfig();
         sparkConfig.setJobName(this.jobName);
         sparkConfig.setMaster(this.master);
@@ -60,13 +60,12 @@ public class SampleJobSparkConfigStandalone {
 
     }
 
-    @Bean(name = "standaloneJobRunner")
-    public JobRunner standalonJobRunner(JobConfig sampleJobConfig ){
-        Extractor<SampleJobEvent> sampleExtractor = new DBDataExtractor();
-        sampleExtractor.setJobConfig(sampleJobConfig);
-        Transformer<SampleJobEvent> sampleTransformer = new SampleTranformer<>();
-        Loader<SampleJobEvent> sampleLoader = new SampleLoader<>();
-        JobRunner jobRunner = new JobRunner(sampleJobConfig, sampleExtractor, sampleTransformer, sampleLoader);
+    @Bean(name = "CountryWeatherJobRunner")
+    public JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunner(JobConfig sampleJobConfig ){
+        Extractor<CountryWeatherJobEvent> CWExtractor = new DBDataExtractor();
+        Transformer<CountryWeatherJobEvent> CWTransformer = new CountryWeatherTranformer();
+        Loader<CountryWeatherJobEvent> CWLoader = new CountryWeatherLoader();
+        JobRunner<CountryWeatherJobEvent> jobRunner = new JobRunner(sampleJobConfig, CWExtractor, CWTransformer,  CWLoader);
         return jobRunner;
     }
 }

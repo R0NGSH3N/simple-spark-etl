@@ -28,7 +28,8 @@ dependencies {
 	//to fix "common-compiler" error: https://stackoverflow.com/questions/42352091/spark-sql-fails-with-java-lang-noclassdeffounderror-org-codehaus-commons-compil
 	implementation 'org.codehaus.janino:commons-compiler:3.0.16'
 	implementation 'org.codehaus.janino:janino:3.0.16'
-	compile project(':simple-spark-etl-job')
+	implementation project(':simple-spark-etl-job')
+	implementation project(':country-weather-etl-job')
 }
 
 test {

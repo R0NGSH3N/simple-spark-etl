@@ -1,8 +1,9 @@
 package com.r0ngsh3n.simplesparketl.controller;
 
+import com.r0ngsh3n.etl.cw.CountryWeatherJobEvent;
 import com.r0ngsh3n.simplesparketl.job.core.JobContext;
 import com.r0ngsh3n.simplesparketl.job.core.jobrunner.JobRunner;
-import com.r0ngsh3n.simplesparketl.job.samplejob.SampleJobEvent;
+import samplejob.SampleJobEvent;
 import com.r0ngsh3n.simplesparketl.service.SimpleSparkEtlSparkService;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,11 +24,14 @@ public class StartJobRestController {
     @Autowired
     private java.util.Map<String, JobRunner> jobMapping;
 
+    @Autowired
+    private JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunner;
+
     @GetMapping("/selectJob/{jobName}")
-    public String selectJob(@PathVariable String jobName) {
-        JobRunner jobRunner = jobMapping.get(jobName);
-        SampleJobEvent event = new SampleJobEvent();
-        JobContext<SampleJobEvent> jobContext = new JobContext<>();
+    public String startCountryWeatherJob() {
+
+        CountryWeatherJobEvent event = new CountryWeatherJobEvent();
+        JobContext<CountryWeatherJobEvent> jobContext = new JobContext<>();
         jobContext.setTarget(event);
 
         return "Successful";
@@ -36,7 +40,9 @@ public class StartJobRestController {
     @GetMapping("/startJob/{jobName}/{partition}/{sparkMode}")
     public void startJob(@PathVariable String jobName, @PathVariable int partition, @PathVariable String sparkMode) throws AnalysisException {
         if (sparkMode.equals("Standalone")) {
-            sparkService.runSparkStandalone(jobName, partition);
+            CountryWeatherJobEvent event = new CountryWeatherJobEvent();
+            //TODO add some thing to event
+            sparkService.runSparkStandalone(event);
         } else {
             sparkService.runSparkInCluster();
         }

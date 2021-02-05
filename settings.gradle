@@ -1,2 +1,2 @@
 rootProject.name = 'simple-spark-etl'
-include ":simple-spark-etl-spring-boot", ":simple-spark-etl-job", ":simple-spark-etl-filewatcher"
+include ":simple-spark-etl-spring-boot", ":simple-spark-etl-job", ":simple-spark-etl-filewatcher", ":country-weather-etl-job"

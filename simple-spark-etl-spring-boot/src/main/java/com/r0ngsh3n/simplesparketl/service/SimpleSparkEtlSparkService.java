@@ -1,6 +1,7 @@
 package com.r0ngsh3n.simplesparketl.service;
 
-import com.r0ngsh3n.simplesparketl.config.SampleJobSparkConfigCluster;
+import com.r0ngsh3n.etl.cw.CountryWeatherJobEvent;
+import com.r0ngsh3n.simplesparketl.config.CountryWeatherJobSparkConfigCluster;
 import com.r0ngsh3n.simplesparketl.job.config.SparkConfig;
 import com.r0ngsh3n.simplesparketl.job.core.jobrunner.JobRunner;
 import com.r0ngsh3n.simplesparketl.job.core.submitter.SparkSubmitter;
@@ -13,17 +14,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class SimpleSparkEtlSparkService {
 
-    private static final String MYSQL_CONNECTION_URL = "jdbc:mysql://localhost:3306/Test";
-    private static final String MYSQL_USERNAME = "root";
-    private static final String MYSQL_PWD = "123";
     @Autowired
-    private SampleJobSparkConfigCluster sparkConfig;
+    private CountryWeatherJobSparkConfigCluster sparkConfig;
 
     @Autowired
-    private JobRunner standaloneJobRunner;
+    private JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunnerStandalone;
 
     @Autowired
-    private SparkConfig standaloneSparkConfig;
+    private SparkConfig CountryWeatherSparkConfig;
 
     @Autowired
     private SparkConfig clusterSparkConfig;
@@ -34,19 +32,19 @@ public class SimpleSparkEtlSparkService {
     }
 
     @Async
-    public void runSparkStandalone(String jobName, int partition ) throws AnalysisException {
+    public void runSparkStandalone(CountryWeatherJobEvent event) throws AnalysisException {
 
         SparkSession spark = SparkSession.builder()
-                .appName(standaloneSparkConfig.getJobName())
-                .master(standaloneSparkConfig.getMaster())
+                .appName(CountryWeatherSparkConfig.getJobName())
+                .master(CountryWeatherSparkConfig.getMaster())
 //                .config("some option", "some value")
 //                .enableHiveSupport()
                 .getOrCreate();
 
         //set up sparkSession runtime arguments
-        standaloneSparkConfig.getSparkSessionOptions().forEach((k, v) -> spark.conf().set(k, v));
+        CountryWeatherSparkConfig.getSparkSessionOptions().forEach((k, v) -> spark.conf().set(k, v));
 
-        standaloneJobRunner.run(spark, null);
+        CountryWeatherJobRunnerStandalone.run(spark, event);
 
 //        Map<String, String> sparkConf = spark.conf().getAll();
 //

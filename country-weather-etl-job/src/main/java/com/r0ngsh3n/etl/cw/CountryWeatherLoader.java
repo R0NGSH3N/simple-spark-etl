@@ -1,4 +1,4 @@
-package com.r0ngsh3n.simplesparketl.job.samplejob;
+package com.r0ngsh3n.etl.cw;
 
 import com.r0ngsh3n.simplesparketl.job.config.JobConfig;
 import com.r0ngsh3n.simplesparketl.job.core.JobContext;
@@ -11,12 +11,12 @@ import org.apache.spark.sql.SparkSession;
 
 @Getter
 @Setter
-public class SampleLoader<SampleJobEvent> implements Loader<SampleJobEvent> {
+public class CountryWeatherLoader implements Loader<CountryWeatherJobEvent> {
     private String outputDir;
     private JobConfig jobConfig;
 
     @Override
-    public void load(JobContext<SampleJobEvent> jobContext, SparkSession spark) {
+    public void load(JobContext<CountryWeatherJobEvent> jobContext, SparkSession spark) {
         Dataset<Row> dataset = jobContext.getDataSet();
         dataset.write().option("header", true).csv(outputDir + "output.csv");
     }

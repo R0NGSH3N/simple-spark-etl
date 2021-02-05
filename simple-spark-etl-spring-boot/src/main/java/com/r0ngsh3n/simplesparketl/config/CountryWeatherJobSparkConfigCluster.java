@@ -16,7 +16,7 @@ import java.util.Map;
 @ConfigurationProperties
 @Getter
 @Setter
-public class SampleJobSparkConfigCluster {
+public class CountryWeatherJobSparkConfigCluster {
     private String jobName;
     private String master = "Load Balancer";
     private Boolean enableDebug = false;

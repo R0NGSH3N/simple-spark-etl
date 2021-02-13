@@ -2,7 +2,6 @@ package com.r0ngsh3n.simplesparketl.job.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import samplejob.SampleJobRunnerConfigModule;
 
 import java.io.*;
 

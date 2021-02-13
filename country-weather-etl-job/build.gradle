@@ -31,6 +31,8 @@ dependencies {
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.0'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.0'
 	implementation 'com.typesafe:config:1.4.1'
+	implementation project(':simple-spark-etl-job')
+
 }
 
 jar {
@@ -40,7 +42,6 @@ jar {
 bootJar{
 	enabled = false
 }
-
 
 test {
 	useJUnitPlatform()

@@ -16,7 +16,7 @@ public class CountryWeatherLoader implements Loader<CountryWeatherJobEvent> {
     private JobConfig jobConfig;
 
     @Override
-    public void load(JobContext<CountryWeatherJobEvent> jobContext, SparkSession spark) {
+public void load(JobContext<CountryWeatherJobEvent> jobContext, SparkSession spark) {
         Dataset<Row> dataset = jobContext.getDataSet();
         dataset.write().option("header", true).csv(outputDir + "output.csv");
     }

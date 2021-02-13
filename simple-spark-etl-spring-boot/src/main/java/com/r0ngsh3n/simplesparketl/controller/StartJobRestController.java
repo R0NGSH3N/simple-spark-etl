@@ -3,7 +3,6 @@ package com.r0ngsh3n.simplesparketl.controller;
 import com.r0ngsh3n.etl.cw.CountryWeatherJobEvent;
 import com.r0ngsh3n.simplesparketl.job.core.JobContext;
 import com.r0ngsh3n.simplesparketl.job.core.jobrunner.JobRunner;
-import samplejob.SampleJobEvent;
 import com.r0ngsh3n.simplesparketl.service.SimpleSparkEtlSparkService;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +24,7 @@ public class StartJobRestController {
     private java.util.Map<String, JobRunner> jobMapping;
 
     @Autowired
-    private JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunner;
+private JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunner;
 
     @GetMapping("/selectJob/{jobName}")
     public String startCountryWeatherJob() {
@@ -37,8 +36,9 @@ public class StartJobRestController {
         return "Successful";
     }
 
-    @GetMapping("/startJob/{jobName}/{partition}/{sparkMode}")
-    public void startJob(@PathVariable String jobName, @PathVariable int partition, @PathVariable String sparkMode) throws AnalysisException {
+    @GetMapping("/startJob")
+    public void startJob() throws AnalysisException {
+        String sparkMode = "Standalone";
         if (sparkMode.equals("Standalone")) {
             CountryWeatherJobEvent event = new CountryWeatherJobEvent();
             //TODO add some thing to event

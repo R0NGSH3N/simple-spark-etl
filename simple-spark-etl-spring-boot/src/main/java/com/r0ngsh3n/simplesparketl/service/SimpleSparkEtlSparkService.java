@@ -42,6 +42,7 @@ public class SimpleSparkEtlSparkService {
                 .getOrCreate();
 
         //set up sparkSession runtime arguments
+
         CountryWeatherSparkConfig.getSparkSessionOptions().forEach((k, v) -> spark.conf().set(k, v));
 
         CountryWeatherJobRunnerStandalone.run(spark, event);

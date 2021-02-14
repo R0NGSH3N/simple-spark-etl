@@ -24,6 +24,7 @@ public class DBDataExtractor<T> implements Extractor<T> {
         String dbTable = jobConfig.getDbTable();
 
         Dataset<Row> jdbcDF = spark.read().jdbc(jobConfig.getDbConnectionURL(), dbTable, connectionProperties);
+        jdbcDF.explain();
 
         jobContext.setDataSet(jdbcDF);
 

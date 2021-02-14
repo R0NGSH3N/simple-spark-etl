@@ -19,10 +19,12 @@ public final class SimpleSparkEtlJobApplication {
         log.info("args: {}", (Object)args);
 
         Options options = new Options();
+        //pring help
+        options.addOption(Option.builder("h").longOpt("help").numberOfArgs(0).required(false).desc("help").build());
+        options.addOption(Option.builder("e").longOpt("etl").numberOfArgs(1).required(true).desc("").build());
         //load client customized option
         Option etlOption = new Option(null, "etl", true, null);
 
-        options.addOption(etlOption);
 
         String[] argsList = null;
         try {

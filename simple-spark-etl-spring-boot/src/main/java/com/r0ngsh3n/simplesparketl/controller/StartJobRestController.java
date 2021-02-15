@@ -38,7 +38,7 @@ private JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunner;
 
     @GetMapping("/startJob")
     public void startJob() throws AnalysisException {
-        String sparkMode = "Standalone";
+        String sparkMode = "cluster";
         if (sparkMode.equals("Standalone")) {
             CountryWeatherJobEvent event = new CountryWeatherJobEvent();
             //TODO add some thing to event

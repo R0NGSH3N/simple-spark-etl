@@ -31,6 +31,7 @@ public class SimpleSparkEtlSparkService {
     public void runSparkInCluster() throws Exception{
         SparkSubmitter sparkSubmitter = new SparkSubmitter(this.clusterSparkConfig);
         CompletableFuture<String> state = sparkSubmitter.submit();
+        System.out.println(state.get());
         if(state.get().equals("end")){
            throw new Exception("state is not end! " + state.get()) ;
         }

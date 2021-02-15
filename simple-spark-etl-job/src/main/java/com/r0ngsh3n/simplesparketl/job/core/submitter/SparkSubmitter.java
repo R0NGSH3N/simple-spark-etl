@@ -63,16 +63,16 @@ public class SparkSubmitter {
          launcher.setDeployMode(sparkConfig.getDeployMode());
       }
 
-      ImmutableList.Builder<String> appArgsBuilder = ImmutableList.<String>builder()
-//              .add(fileName)
-              .add(sparkConfig.getJobConfigFileName());
+//      ImmutableList.Builder<String> appArgsBuilder = ImmutableList.<String>builder()
+////              .add(fileName)
+//              .add(sparkConfig.getJobConfigFileName());
 
       launcher.setSparkHome(sparkHome)
               .setMaster(sparkMaster)
               .setAppName("ETL-" + sparkConfig.getJobName())
               .setAppResource(serviceJar)
-              .setVerbose(false)
-              .addAppArgs(appArgsBuilder.build().toArray(new String[0]));
+              .setVerbose(true);
+//              .addAppArgs(appArgsBuilder.build().toArray(new String[0]));
 
       if(sparkConfig.isEnableDebug()){
          launcher.setConf("spark.driver.extraJavaOption", "-agentlib:jdwp=transport=dt_sorcket,server=y,suspend=y,address=" + sparkConfig.getDebugPort());

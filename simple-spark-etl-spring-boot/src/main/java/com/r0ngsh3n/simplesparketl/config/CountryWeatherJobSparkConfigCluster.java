@@ -19,6 +19,7 @@ import java.util.Map;
 @Setter
 public class CountryWeatherJobSparkConfigCluster {
     private String jobName;
+    private String sparkHome;
     private String master;
     private String serviceJar;
     private Boolean enableDebug = false;
@@ -37,6 +38,7 @@ public class CountryWeatherJobSparkConfigCluster {
         sparkConfig.setMaster(this.master);
         sparkConfig.setServiceJar(this.serviceJar);
         sparkConfig.setJars(this.jars);
+        sparkConfig.setHome(this.sparkHome);
 
         Map<String, String> sessionConfigs = new HashMap<>();
         sparkConfig.setSparkSessionOptions(sessionConfigs);

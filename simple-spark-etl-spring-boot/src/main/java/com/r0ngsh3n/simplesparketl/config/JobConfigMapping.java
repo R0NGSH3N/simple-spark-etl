@@ -25,6 +25,7 @@ public class JobConfigMapping {
     private ApplicationContext applicationContext;
     private String jobMappings;
 
+    /**
     @Bean(name="jobMapping")
     public HashMap<String, JobRunner> jobMapping(){
         Map<String, String>  mapp = Splitter.on(",").withKeyValueSeparator("|").split(jobMappings);
@@ -42,5 +43,6 @@ public class JobConfigMapping {
 
         return jobMapping;
     }
+    **/
 
 }

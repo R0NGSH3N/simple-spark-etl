@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.CompletableFuture;
+
 @Service
 public class SimpleSparkEtlSparkService {
 
@@ -26,9 +28,12 @@ public class SimpleSparkEtlSparkService {
     @Autowired
     private SparkConfig clusterSparkConfig;
 
-    public void runSparkInCluster() {
+    public void runSparkInCluster() throws Exception{
         SparkSubmitter sparkSubmitter = new SparkSubmitter(this.clusterSparkConfig);
-        sparkSubmitter.submit();
+        CompletableFuture<String> state = sparkSubmitter.submit();
+        if(state.get().equals("end")){
+           throw new Exception("state is not end! " + state.get()) ;
+        }
     }
 
     @Async

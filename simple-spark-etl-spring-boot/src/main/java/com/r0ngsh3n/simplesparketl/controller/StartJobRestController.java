@@ -44,8 +44,11 @@ private JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunner;
             //TODO add some thing to event
             sparkService.runSparkStandalone(event);
         } else {
-            sparkService.runSparkInCluster();
+            try {
+                sparkService.runSparkInCluster();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
     }
 }

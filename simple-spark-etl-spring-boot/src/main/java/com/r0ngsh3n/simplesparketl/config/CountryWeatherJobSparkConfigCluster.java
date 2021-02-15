@@ -9,16 +9,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
-@PropertySource("classpath:spark-config-cluster.yml")
+@PropertySource("classpath:country-weather-job-cluster.yml")
 @ConfigurationProperties
 @Getter
 @Setter
 public class CountryWeatherJobSparkConfigCluster {
     private String jobName;
-    private String master = "Load Balancer";
+    private String master;
+    private String serviceJar;
     private Boolean enableDebug = false;
     private String bindAddress;
     private String ports;
@@ -26,12 +28,15 @@ public class CountryWeatherJobSparkConfigCluster {
     private String driverMemory = "16g";
     private String mainClass = "com.r0ngsh3n.simplesparketl.job.SimpleSparkEtlJobApplication";
     private String appResource ;
+    private List<String> jars;
 
     @Bean(name = "clusterSparkConfig")
     public SparkConfig clusterSparkConfig(){
         SparkConfig sparkConfig = new SparkConfig();
         sparkConfig.setJobName(this.jobName);
         sparkConfig.setMaster(this.master);
+        sparkConfig.setServiceJar(this.serviceJar);
+        sparkConfig.setJars(this.jars);
 
         Map<String, String> sessionConfigs = new HashMap<>();
         sparkConfig.setSparkSessionOptions(sessionConfigs);

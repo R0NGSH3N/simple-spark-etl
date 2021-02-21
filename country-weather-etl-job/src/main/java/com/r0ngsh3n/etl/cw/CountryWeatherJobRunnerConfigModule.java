@@ -26,7 +26,8 @@ public class CountryWeatherJobRunnerConfigModule implements JobRunnerConfigureMo
 
 //    @Bean(name="SampleTransformer")
     public Transformer<CountryWeatherJobEvent> transformer(){
-        return new CountryWeatherTranformer();
+//        return new CountryWeatherTranformer();
+        return null;
     }
 
 //    @Bean(name="sampleLoader")

@@ -48,7 +48,7 @@ public final class SimpleSparkEtlJobApplication {
 
             JobRunner jobRunner = injector.getInstance(JobRunner.class);
             SparkSession spark = SparkSession.builder().getOrCreate();
-            jobRunner.run(spark, null);
+            jobRunner.run( null);
         } catch (Exception e) {
             e.printStackTrace();
         }

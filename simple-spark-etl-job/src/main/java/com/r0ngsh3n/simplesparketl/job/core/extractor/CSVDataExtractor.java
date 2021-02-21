@@ -11,7 +11,11 @@ public abstract class CSVDataExtractor<T> extends AbstractExtractor<T>{
     @Override
     public void extract(JobContext<T> jobContext, SparkSession spark) {
         JobConfig jobConfig = getJobConfig();
-        Dataset<Row> csvDF =spark.read().option("header", true).csv(jobConfig.getInputCSVFileDir());
+        Dataset<Row> csvDF =spark
+                .read()
+                .option("inferSchema", "true")
+                .option("header", true)
+                .csv(jobConfig.getInputCSVFileDir());
         jobContext.setDataSet(csvDF);
     }
 }

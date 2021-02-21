@@ -20,13 +20,15 @@ public class JobRunner<T> {
     private Extractor<T> extractor;
     private Loader<T> loader;
     private Transformer<T> transformer;
+    private SparkSession spark;
 
     @Inject
     public JobRunner(
             JobConfig jobConfig,
             Extractor<T> extractor,
             Transformer<T> transformer,
-            Loader<T> loader
+            Loader<T> loader,
+            SparkSession spark
     ) {
         this.jobConfig = jobConfig;
         this.extractor = extractor;
@@ -37,7 +39,7 @@ public class JobRunner<T> {
         loader.setJobConfig(jobConfig);
     }
 
-    public void run(SparkSession spark, T target){
+    public void run(T target){
         JobContext<T> jobContext = new JobContext();
         if(target != null){
             jobContext.setTarget(target);

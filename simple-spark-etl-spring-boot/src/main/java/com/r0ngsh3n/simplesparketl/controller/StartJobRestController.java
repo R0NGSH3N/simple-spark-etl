@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.apache.spark.sql.AnalysisException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,7 +23,7 @@ public class StartJobRestController {
     private java.util.Map<String, JobRunner> jobMapping;
 
     @Autowired
-private JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunner;
+    private JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunner;
 
     @GetMapping("/selectJob/{jobName}")
     public String startCountryWeatherJob() {
@@ -39,10 +38,10 @@ private JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunner;
     @GetMapping("/startJob")
     public void startJob() throws AnalysisException {
         String sparkMode = "cluster";
-        if (sparkMode.equals("Standalone")) {
+        if (sparkMode.equals("Local")) {
             CountryWeatherJobEvent event = new CountryWeatherJobEvent();
             //TODO add some thing to event
-            sparkService.runSparkStandalone(event);
+            sparkService.runSparkLocal(event);
         } else {
             try {
                 sparkService.runSparkInCluster();

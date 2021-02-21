@@ -1,14 +1,12 @@
 package com.r0ngsh3n.simplesparketl.service;
 
 import com.r0ngsh3n.etl.cw.CountryWeatherJobEvent;
-import com.r0ngsh3n.simplesparketl.config.CountryWeatherJobSparkConfigCluster;
+import com.r0ngsh3n.simplesparketl.config.CountryWeatherJobSparkConfigStandalone;
 import com.r0ngsh3n.simplesparketl.job.config.SparkConfig;
 import com.r0ngsh3n.simplesparketl.job.core.jobrunner.JobRunner;
 import com.r0ngsh3n.simplesparketl.job.core.submitter.SparkSubmitter;
 import org.apache.spark.sql.AnalysisException;
-import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
@@ -17,10 +15,10 @@ import java.util.concurrent.CompletableFuture;
 public class SimpleSparkEtlSparkService {
 
     @Autowired
-    private CountryWeatherJobSparkConfigCluster sparkConfig;
+    private CountryWeatherJobSparkConfigStandalone sparkConfig;
 
     @Autowired
-    private JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunnerStandalone;
+    private JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunnerLocal;
 
     @Autowired
     private SparkConfig CountryWeatherSparkConfig;
@@ -28,53 +26,16 @@ public class SimpleSparkEtlSparkService {
     @Autowired
     private SparkConfig clusterSparkConfig;
 
-    public void runSparkInCluster() throws Exception{
+    public void runSparkInCluster() throws Exception {
         SparkSubmitter sparkSubmitter = new SparkSubmitter(this.clusterSparkConfig);
         CompletableFuture<String> state = sparkSubmitter.submit();
         System.out.println(state.get());
-        if(state.get().equals("end")){
-           throw new Exception("state is not end! " + state.get()) ;
+        if (state.get().equals("end")) {
+            throw new Exception("state is not end! " + state.get());
         }
     }
 
-    @Async
-    public void runSparkStandalone(CountryWeatherJobEvent event) throws AnalysisException {
-
-        SparkSession spark = SparkSession.builder()
-                .appName(CountryWeatherSparkConfig.getJobName())
-                .master(CountryWeatherSparkConfig.getMaster())
-//                .config("some option", "some value")
-//                .enableHiveSupport()
-                .getOrCreate();
-
-        //set up sparkSession runtime arguments
-
-        CountryWeatherSparkConfig.getSparkSessionOptions().forEach((k, v) -> spark.conf().set(k, v));
-
-        CountryWeatherJobRunnerStandalone.run(spark, event);
-
-//        Map<String, String> sparkConf = spark.conf().getAll();
-//
-//        //JDBC connection properties
-//        final Properties connectionProperties = new Properties();
-//        connectionProperties.put("user", MYSQL_USERNAME);
-//        connectionProperties.put("password", MYSQL_PWD);
-//        String dbTable = "(SELECT * FROM wealth_accounts) AS t";
-//
-//        long start_time = System.currentTimeMillis();
-//        Dataset<Row> jdbcDF =
-//                spark.read()
-//                        .jdbc(MYSQL_CONNECTION_URL, dbTable, connectionProperties);
-//
-////        List<Row> dataTable = jdbcDF.collectAsList();
-////
-////        dataTable.forEach(System.out::println);
-//        System.out.println("time spent: " + (System.currentTimeMillis() - start_time));
-////        System.out.println(jdbcDF.schema());
-//        jdbcDF.groupBy("Country_Code").sum().show();
-//        jdbcDF.createGlobalTempView("wealth_accounts");
-//
-//        spark.sql("select Country_Code, sum(1995) from global_temp.wealth_accounts group by Country_Code").show();
-//        return CompletableFuture.completedFuture("successful");
+    public void runSparkLocal(CountryWeatherJobEvent event) throws AnalysisException {
+        CountryWeatherJobRunnerLocal.run(event);
     }
 }

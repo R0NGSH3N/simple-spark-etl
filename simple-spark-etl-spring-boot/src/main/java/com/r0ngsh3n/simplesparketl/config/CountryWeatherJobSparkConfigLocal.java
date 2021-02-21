@@ -16,6 +16,7 @@ import lombok.Setter;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,8 +41,8 @@ public class CountryWeatherJobSparkConfigLocal {
     private String dbTable;
 
     @Bean(name = "CountryWeatherJobConfig")
-    public JobConfig CountryWeatherJobConfig(){
-        JobConfig CountryWeatherJobConfig= new JobConfig();
+    public JobConfig CountryWeatherJobConfig() {
+        JobConfig CountryWeatherJobConfig = new JobConfig();
         CountryWeatherJobConfig.setDbConnectionURL(this.dbConnectionURL);
         CountryWeatherJobConfig.setUserName(this.userName);
         CountryWeatherJobConfig.setPassword(this.password);
@@ -52,7 +53,7 @@ public class CountryWeatherJobSparkConfigLocal {
     }
 
     @Bean(name = "CountryWeatherSparkConfig")
-    public SparkConfig CountryWeatherSparkConfig(){
+    public SparkConfig CountryWeatherSparkConfig() {
         SparkConfig sparkConfig = new SparkConfig();
         sparkConfig.setJobName(this.jobName);
         sparkConfig.setMaster(this.master);
@@ -65,10 +66,10 @@ public class CountryWeatherJobSparkConfigLocal {
     }
 
     @Bean(name = "spark")
-    public SparkSession sparkSession(SparkConfig countryWeatherSparkConfig){
+    public SparkSession sparkSession(@Qualifier("CountryWeatherSparkConfig") SparkConfig CountryWeatherSparkConfig) {
         SparkSession spark = SparkSession.builder()
-                .appName(countryWeatherSparkConfig.getJobName())
-                .master(countryWeatherSparkConfig.getMaster())
+                .appName(CountryWeatherSparkConfig.getJobName())
+                .master(CountryWeatherSparkConfig.getMaster())
 //                .config("some option", "some value")
 //                .enableHiveSupport()
                 .getOrCreate();
@@ -77,7 +78,7 @@ public class CountryWeatherJobSparkConfigLocal {
     }
 
     @Bean(name = "CountryWeatherJobRunner")
-    public JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunner(JobConfig sampleJobConfig, SparkSession spark ){
+    public JobRunner<CountryWeatherJobEvent> CountryWeatherJobRunner(JobConfig sampleJobConfig, SparkSession spark) {
         Extractor<CountryWeatherJobEvent> CWExtractor = new CSVDataExtractor<CountryWeatherJobEvent>() {
             @Override
             public void postProcess(JobContext<CountryWeatherJobEvent> jobContext) {
@@ -93,7 +94,7 @@ public class CountryWeatherJobSparkConfigLocal {
             }
         };
         Loader<CountryWeatherJobEvent> CWLoader = new CountryWeatherLoader();
-        JobRunner<CountryWeatherJobEvent> jobRunner = new JobRunner(sampleJobConfig, CWExtractor, CWTransformer,  CWLoader, spark);
+        JobRunner<CountryWeatherJobEvent> jobRunner = new JobRunner(sampleJobConfig, CWExtractor, CWTransformer, CWLoader, spark);
         return jobRunner;
     }
 }

@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @Slf4j
@@ -41,5 +43,10 @@ public class CountryWeatherJobRunnerConfigModule implements JobRunnerConfigureMo
         binder.bind(Extractor.class).toInstance(extractor());
         binder.bind(Transformer.class).toInstance(transformer());
         binder.bind(Loader.class).toInstance(loader());
+    }
+
+    @Override
+    public void setRunningParameters(Map<String, String> runningParameters) {
+
     }
 }

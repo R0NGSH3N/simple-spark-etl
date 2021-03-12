@@ -33,7 +33,7 @@ to walk you throught how to and explain the required Spark knowledge.
 
 `DataFrame` - data table
 
-`Dataset` - combination of `RDD` and `DataFrame`, ***this is the objects we are going to work with***
+`Dataset` - combination of `RDD` and `DataFrame`, this is only available on driver node. 
 
 ## Spark Actions
 
@@ -63,6 +63,12 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 ~~~
+
+## Simple Spark ETL Project Structure Overview
+
+The Simple Spark ETL project has 3 components (sub projects):
+
+1. 
 
 ## Extractor: Connect to MySQL database
 

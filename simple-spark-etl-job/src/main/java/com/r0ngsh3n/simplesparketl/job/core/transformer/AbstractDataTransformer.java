@@ -11,7 +11,7 @@ import org.apache.spark.sql.SparkSession;
 public abstract class AbstractDataTransformer<T> implements Transformer<T>{
     private JobConfig jobConfig;
     @Override
-    public void tranform(JobContext<T> jobContext, SparkSession spark) {
+     public void tranform(JobContext<T> jobContext, SparkSession spark) {
         process(jobContext, spark);
 
     }

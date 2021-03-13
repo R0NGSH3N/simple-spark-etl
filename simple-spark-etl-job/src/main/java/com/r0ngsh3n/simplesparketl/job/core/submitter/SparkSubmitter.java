@@ -57,7 +57,7 @@ public class SparkSubmitter {
       }
 
       /**
-       * DO NOT use Client DeployMode
+       * default is client mode
        */
       if(StringUtils.isNotBlank(sparkConfig.getDeployMode())){
          launcher.setDeployMode(sparkConfig.getDeployMode());

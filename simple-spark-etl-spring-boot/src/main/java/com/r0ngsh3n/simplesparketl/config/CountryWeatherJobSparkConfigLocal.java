@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@PropertySource("classpath:country-weather-job-standalone.yml")
 @ConfigurationProperties
 @Getter
 @Setter

@@ -26,13 +26,11 @@ public class CountryWeatherJobRunnerConfigModule implements JobRunnerConfigureMo
         return extractor;
     }
 
-//    @Bean(name="SampleTransformer")
     public Transformer<CountryWeatherJobEvent> transformer(){
 //        return new CountryWeatherTranformer();
         return null;
     }
 
-//    @Bean(name="sampleLoader")
     public Loader<CountryWeatherJobEvent> loader(){
         return new CountryWeatherLoader();
     }

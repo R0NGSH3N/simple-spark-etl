@@ -35,6 +35,8 @@ public class SimpleSparkEtlSparkService {
         }
     }
 
+
+
     public void runSparkLocal(CountryWeatherJobEvent event) throws AnalysisException {
         CountryWeatherJobRunnerLocal.run(event);
     }

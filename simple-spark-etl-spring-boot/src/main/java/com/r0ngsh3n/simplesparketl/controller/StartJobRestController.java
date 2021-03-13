@@ -6,15 +6,22 @@ import com.r0ngsh3n.simplesparketl.job.core.jobrunner.JobRunner;
 import com.r0ngsh3n.simplesparketl.service.SimpleSparkEtlSparkService;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.spark.rdd.JdbcRDD;
 import org.apache.spark.sql.AnalysisException;
+import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.sql.DriverManager;
 
 @RestController
 @Setter
 @Getter
 public class StartJobRestController {
+
+    @Autowired
+    private SparkSession spark;
 
     @Autowired
     private SimpleSparkEtlSparkService sparkService;
@@ -37,7 +44,7 @@ public class StartJobRestController {
 
     @GetMapping("/startJob")
     public void startJob() throws AnalysisException {
-        String sparkMode = "cluster";
+        String sparkMode = "Local";
         if (sparkMode.equals("Local")) {
             CountryWeatherJobEvent event = new CountryWeatherJobEvent();
             //TODO add some thing to event
@@ -49,5 +56,9 @@ public class StartJobRestController {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void testJdbcRDD(SparkSession spark){
+
     }
 }

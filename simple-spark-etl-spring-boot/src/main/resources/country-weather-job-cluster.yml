@@ -1,10 +1,5 @@
 jobConfig:
   jobName: Country-Weather-ETL-cluster
-  sparkHome: /usr/local/spark-2.4.7-bin-hadoop2.7
-  master: spark://rongshen-ThinkPad-T420:7077
-  serviceJar: /home/rongshen/projects/simple-spark-etl/simple-spark-etl-job/build/libs/simple-spark-etl-job-0.0.1-SNAPSHOT.jar
-  jars:
-    - /home/rongshen/projects/simple-spark-etl/country-weather-etl-job/build/libs/country-weather-etl-job-0.0.1-SNAPSHOT.jar
   sourceFormat: jdbc
   dbConnectionURL: jdbc:mysql://localhost:3306/Test
   dbTable: (SELECT * FROM wealth_accounts) AS t

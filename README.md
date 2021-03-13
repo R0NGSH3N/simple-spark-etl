@@ -68,7 +68,28 @@ dependencies {
 
 The Simple Spark ETL project has 3 components (sub projects):
 
-1. 
+1. simple-spark-etl-spring-boot
+2. simple-spark-etl-job
+3. simple-spark-etl-filewatcher
+
+and there are some sample implementation of the project
+
+
+## Configuration
+
+There are 2 type of config file we need to run spark ETL tools:
+
+1. SparkConfig: include spark home, master, service jar and jars etc information.
+2. JobConfig: includ job related arguments
+
+`SparkConfig` used by `Spark Launcher` to prepare the spark session objectd on driver node.
+
+`JobConfig` also used by `Spark Launcher` but the purpose is to deliver job related the infomation to spark standalone application as command line arguments
+
+Those 2 config files are required by all `SimpleSpark-ETL-Job` caller.
+
+
+
 
 ## Extractor: Connect to MySQL database
 

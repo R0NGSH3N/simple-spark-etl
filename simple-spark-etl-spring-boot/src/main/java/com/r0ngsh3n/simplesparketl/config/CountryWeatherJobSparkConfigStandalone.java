@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-@PropertySource("classpath:country-weather-job-cluster.yml")
-@ConfigurationProperties
+@ConfigurationProperties(prefix = "spark-cluster")
 @Getter
 @Setter
 public class CountryWeatherJobSparkConfigStandalone {

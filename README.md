@@ -8,6 +8,34 @@ categories: common
   Spark could be used as ETL tools, today we are going
 to walk you throught how to and explain the required Spark knowledge.
 
+## Why I start this ETL project
+
+Many Spark ETL projects out there, but I found a unique case that I can't use others:
+
+- Source Database/Target Database doesn't support standard JDBC
+- I need to control on the JDBC connections so won't crash the databases.
+- I need to do pre-validation and post-recon on data. The validation will implements aggregation and counting (that is why Spark kick in)
+- Data need to be store in memory cache (hazelcast) and then persistent to MongoDB.
+
+## Simple Spark ETL Project Structure Overview
+
+The Simple Spark ETL project has 3 components (sub projects):
+
+1. simple-spark-etl-spring-boot
+2. simple-spark-etl-job
+3. simple-spark-etl-filewatcher
+
+### simple-spark-etl-spring-boot
+
+   This project provide:
+
+   1. Restful API to start/monitor/stop etl job.
+   2. contain Angular project providing GUI that integrate with Spark/MongoDB/HazelCast
+
+#### ETLJobRestController
+
+
+
 ## Spark Overview
 
 `Spark Core`: have to have it
@@ -64,15 +92,11 @@ dependencies {
 }
 ~~~
 
-## Simple Spark ETL Project Structure Overview
-
-The Simple Spark ETL project has 3 components (sub projects):
-
-1. simple-spark-etl-spring-boot
-2. simple-spark-etl-job
-3. simple-spark-etl-filewatcher
-
 and there are some sample implementation of the project
+
+## simple-spark-etl-spring-boot
+
+This is Restful server run on Spring, user can send trigger to start the job
 
 
 ## Configuration
@@ -87,7 +111,6 @@ There are 2 type of config file we need to run spark ETL tools:
 `JobConfig` also used by `Spark Launcher` but the purpose is to deliver job related the infomation to spark standalone application as command line arguments
 
 Those 2 config files are required by all `SimpleSpark-ETL-Job` caller.
-
 
 
 
@@ -215,3 +238,6 @@ Those 2 config files are required by all `SimpleSpark-ETL-Job` caller.
    first, you need to create `temp view`, I think that is equivalent to temp table in db, and then you can run sql against.
    
    p.s: when I test this function, some how I have to disable the `.enableHiveSupport()` option.
+
+
+## Start Job 

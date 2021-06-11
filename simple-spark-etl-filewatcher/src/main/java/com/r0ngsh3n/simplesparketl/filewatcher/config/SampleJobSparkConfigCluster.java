@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@PropertySource("classpath:spark-config-cluster.yml")
+//@PropertySource("classpath:spark-config-cluster.yml")
 @ConfigurationProperties
 @Getter
 @Setter

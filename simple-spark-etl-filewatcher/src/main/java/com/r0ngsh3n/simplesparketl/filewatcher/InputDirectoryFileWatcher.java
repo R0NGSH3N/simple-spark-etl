@@ -32,33 +32,36 @@ public class InputDirectoryFileWatcher {
 
         File[] fileArray = path.toFile().listFiles();
         if (fileArray != null && fileArray.length > 0) {
-            for(File dataFile: fileArray){
-               if( dataFile != null && dataFile.isFile()) {
-                   log.info(" data file found {}", dataFile.getCanonicalPath());
-                   try {
-                       this.inputDataFileHandler.handleFile(dataFile);
-                   }catch(Exception e){
-                       log.error(" Error in handleFile: {} ", e);
-                   }
-               }
+            for (File dataFile : fileArray) {
+                if (dataFile != null && dataFile.isFile()) {
+                    log.info(" data file found {}", dataFile.getCanonicalPath());
+                    try {
+                        this.inputDataFileHandler.handleFile(dataFile);
+                    } catch (Exception e) {
+                        log.error(" Error in handleFile: {} ", e);
+                    }
+                }
             }
         }
 
         //start file watcher demon
-        FileAlterationListener fileAlterationListener = new FileAlterationListener(){
+        FileAlterationListener fileAlterationListener = new FileAlterationListener() {
 
             @Override
             public void onStart(FileAlterationObserver observer) {
             }
 
             @Override
-            public void onDirectoryCreate(File directory) { }
+            public void onDirectoryCreate(File directory) {
+            }
 
             @Override
-            public void onDirectoryChange(File directory) { }
+            public void onDirectoryChange(File directory) {
+            }
 
             @Override
-            public void onDirectoryDelete(File directory) { }
+            public void onDirectoryDelete(File directory) {
+            }
 
             @SneakyThrows
             @Override
@@ -80,7 +83,8 @@ public class InputDirectoryFileWatcher {
             }
 
             @Override
-            public void onStop(FileAlterationObserver observer) { }
+            public void onStop(FileAlterationObserver observer) {
+            }
         };
 
         FileAlterationObserver fileAlterationObserver = new FileAlterationObserver(path.toFile());

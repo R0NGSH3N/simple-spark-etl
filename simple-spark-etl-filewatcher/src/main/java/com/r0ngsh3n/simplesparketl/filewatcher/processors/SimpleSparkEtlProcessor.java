@@ -1,7 +1,6 @@
 package com.r0ngsh3n.simplesparketl.filewatcher.processors;
 
 import com.r0ngsh3n.simplesparketl.filewatcher.config.SimpleSparkEtlFilWatcherConfig;
-import com.r0ngsh3n.simplesparketl.job.config.SparkConfig;
 import com.r0ngsh3n.simplesparketl.job.core.submitter.SparkSubmitter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,19 +16,17 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SimpleSparkEtlProcessor {
     private final SimpleSparkEtlFilWatcherConfig simpleSparkEtlFilWatcherConfig;
-    private final SparkConfig sparkConfig;
-    private final Function<SimpleSparkEtlFilWatcherConfig, Lock> locks;
+    private final ReentrantLock lock;
     private final AtomicBoolean running;
     private ExecutorService executorService;
 
     private final List<SimpleSparkEtlFilWatcherConfig.SourceConfig> extractConfigDirectoryList;
 
-    public SimpleSparkEtlProcessor(SimpleSparkEtlFilWatcherConfig config, Function<SimpleSparkEtlFilWatcherConfig, Lock> locks, SparkConfig sparkConfig) {
+    public SimpleSparkEtlProcessor(SimpleSparkEtlFilWatcherConfig config) {
         this.simpleSparkEtlFilWatcherConfig = config;
-        this.locks = locks == null ? t -> new ReentrantLock() : locks;
+        this.lock = new ReentrantLock();
         this.running = new AtomicBoolean(true);
-        this.sparkConfig = sparkConfig;
-        this.extractConfigDirectoryList = config.getExtractConfigDirectoryList();
+        this.extractConfigDirectoryList = config.getSources();
     }
 
     /**
@@ -43,7 +40,7 @@ public class SimpleSparkEtlProcessor {
      **/
 
     private Function<String, CompletableFuture<String>> createSparkProcessor() {
-        SparkSubmitter sparkSubmitter = new SparkSubmitter(this.sparkConfig);
+        SparkSubmitter sparkSubmitter = new SparkSubmitter(this.simpleSparkEtlFilWatcherConfig.getSparkConfig());
         return dataFile -> sparkSubmitter.submit(dataFile);
     }
 
@@ -68,6 +65,7 @@ public class SimpleSparkEtlProcessor {
                     lock.unlock();
                 }
             }
+
         } finally {
             running.set(false);
             lock.unlock();

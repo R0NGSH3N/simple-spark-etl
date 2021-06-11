@@ -33,9 +33,49 @@ The Simple Spark ETL project has 3 components (sub projects):
    2. contain Angular project providing GUI that integrate with Spark/MongoDB/HazelCast
 
 Start job 
+
 #### ETLJobRestController
 
+### simple-spark-etl-filewatcher
 
+This component watch the multiple file directories that user config, when there is new csv file dropped in the folder, it will load the data and store into database. This is very common operation of ETL tool.
+
+This project use typesafe package for configuration and use multiple threads to monitor 1 to many directories.
+
+`SimpleSparkEtlFileWatcherApplication` is start point.
+
+#### Filewatcher Configuration
+
+The Filewatcher use `typesafe` package, the reason is `typesafe` support json format config file which is better strucuture than normal properties type of config file.
+
+The configuration contains:
+
+1. Job Configuration
+   - Source Configuration: source file directory, source file pattern, polling time etc
+   - Destination DB configuration: JDBC url, table name, username & password etc
+  
+2. Spark Configuration
+3. Caceh Configuration
+
+~~~java
+    @Override
+    public void run(String... args) {
+        SimpleSparkEtlFilWatcherConfig simpleSparkEtlFilWatcherConfig = SimpleSparkEtlFilWatcherConfig.loadConfig();
+        SparkConfig sparkConfig = (SparkConfig) this.applicationContext.getBean("clusterSparkConfig");
+        SimpleSparkEtlProcessor processor = new SimpleSparkEtlProcessor(simpleSparkEtlFilWatcherConfig, null, sparkConfig);
+        jrocessor.run();
+    }
+~~~
+
+The `SimpleSparkEtlFilWatcherConfig` has all the properties that file watcher needed. the properties are loaded from `application.conf` from `resources` folder
+
+This Filewatcher is running on Spring framework and monitoring the file folder, once there are new csv file arrived, then:
+
+1. start Spark job and submit the csv file to the spark cluster.
+2. if the spark job completed, move the data file to the `completed` folder.
+3. if the spark job failed, move the data file to the `error` folder.
+4. Notify the result to the `simple-spark-etl-spring-boot` server.
+5. Trigger the recon job start between memory cache and database.
 
 ## Spark Overview
 

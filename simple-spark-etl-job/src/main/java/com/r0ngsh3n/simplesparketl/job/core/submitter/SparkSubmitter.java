@@ -1,7 +1,5 @@
 package com.r0ngsh3n.simplesparketl.job.core.submitter;
 
-import com.google.common.collect.ImmutableList;
-import com.r0ngsh3n.simplesparketl.job.config.SparkConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.spark.launcher.SparkAppHandle;

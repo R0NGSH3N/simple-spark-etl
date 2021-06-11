@@ -5,10 +5,10 @@ tags: Spark, Java, Big Data, ETL, database
 categories: common
 ---
 
-  Spark could be used as ETL tools, today we are going
+Spark could be used as ETL tools, today we are going
 to walk you throught how to and explain the required Spark knowledge.
 
-## Why I start this ETL project
+**Why I start this ETL project**
 
 Many Spark ETL projects out there, but I found a unique case that I can't use others:
 
@@ -17,7 +17,7 @@ Many Spark ETL projects out there, but I found a unique case that I can't use ot
 - I need to do pre-validation and post-recon on data. The validation will implements aggregation and counting (that is why Spark kick in)
 - Data need to be store in memory cache (hazelcast) and then persistent to MongoDB.
 
-## Simple Spark ETL Project Structure Overview
+# Simple Spark ETL Project Structure Overview
 
 The Simple Spark ETL project has 3 components (sub projects):
 
@@ -25,18 +25,14 @@ The Simple Spark ETL project has 3 components (sub projects):
 2. simple-spark-etl-job
 3. simple-spark-etl-filewatcher
 
-### simple-spark-etl-spring-boot
+# Simple-spark-etl-spring-boot
 
    This project provide:
 
    1. Restful API to start/monitor/stop etl job.
    2. contain Angular project providing GUI that integrate with Spark/MongoDB/HazelCast
 
-Start job 
-
-#### ETLJobRestController
-
-### simple-spark-etl-filewatcher
+## Simple-spark-etl-filewatcher
 
 This component watch the multiple file directories that user config, when there is new csv file dropped in the folder, it will load the data and store into database. This is very common operation of ETL tool.
 
@@ -44,7 +40,15 @@ This project use typesafe package for configuration and use multiple threads to 
 
 `SimpleSparkEtlFileWatcherApplication` is start point.
 
-#### Filewatcher Configuration
+~~~java
+    public static void main(String[] args) {
+        SimpleSparkEtlFilWatcherConfig simpleSparkEtlJobConfig = SimpleSparkEtlFilWatcherConfig.loadConfig();
+        SimpleSparkEtlProcessor processor = new SimpleSparkEtlProcessor(simpleSparkEtlJobConfig);
+        processor.run();
+    }
+~~~
+
+### Filewatcher Configuration
 
 The Filewatcher use `typesafe` package, the reason is `typesafe` support json format config file which is better strucuture than normal properties type of config file.
 
@@ -54,15 +58,16 @@ The configuration contains:
    - Source Configuration: source file directory, source file pattern, polling time etc
    - Destination DB configuration: JDBC url, table name, username & password etc
   
-2. Spark Configuration
-3. Caceh Configuration
+2. Spark Configuration: Spark Configuration is not **ONLY** config the spark cluster related the parameters, but it is also control which Jar to run the spark job, that is very important, because the jar contain the ETL job runner control how data get extract, transform and load into database.
+
+3. Cache(HazelCast) Configuration
 
 ~~~java
     @Override
     public void run(String... args) {
-        SimpleSparkEtlFilWatcherConfig simpleSparkEtlFilWatcherConfig = SimpleSparkEtlFilWatcherConfig.loadConfig();
+        SimpleSparkEtlFilWatcherConfig simpleSparkEtlJobConfig = SimpleSparkEtlFilWatcherConfig.loadConfig();
         SparkConfig sparkConfig = (SparkConfig) this.applicationContext.getBean("clusterSparkConfig");
-        SimpleSparkEtlProcessor processor = new SimpleSparkEtlProcessor(simpleSparkEtlFilWatcherConfig, null, sparkConfig);
+        SimpleSparkEtlProcessor processor = new SimpleSparkEtlProcessor(simpleSparkEtlJobConfig, null, sparkConfig);
         jrocessor.run();
     }
 ~~~

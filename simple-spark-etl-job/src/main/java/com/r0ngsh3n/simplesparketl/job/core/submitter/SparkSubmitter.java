@@ -1,5 +1,6 @@
 package com.r0ngsh3n.simplesparketl.job.core.submitter;
 
+import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.spark.launcher.SparkAppHandle;
@@ -12,11 +13,11 @@ import java.util.function.Supplier;
 
 @Slf4j
 public class SparkSubmitter {
-   private final SparkConfig sparkConfig;
+   private final SimpleSparkEtlJobConfig jobConfig;
    private final Supplier<SparkLauncher> sparkLauncherSupplier;
 
-   public SparkSubmitter(SparkConfig config){
-      this.sparkConfig = config;
+   public SparkSubmitter(SimpleSparkEtlJobConfig config){
+      this.jobConfig = config;
       this.sparkLauncherSupplier = SparkLauncher::new;
    }
 
@@ -25,6 +26,7 @@ public class SparkSubmitter {
 
       SparkLauncher launcher = sparkLauncherSupplier.get();
 
+      SimpleSparkEtlJobConfig.SparkConfig sparkConfig = this.jobConfig.getSparkConfig();
       String sparkHome = sparkConfig.getHome();
       String sparkMaster = sparkConfig.getMaster();
       String serviceJar = sparkConfig.getServiceJar();
@@ -102,7 +104,5 @@ public class SparkSubmitter {
 
       return sparkJobFuture;
    }
-
-
 
 }

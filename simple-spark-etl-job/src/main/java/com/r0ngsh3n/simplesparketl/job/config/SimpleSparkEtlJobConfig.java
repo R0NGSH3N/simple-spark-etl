@@ -1,4 +1,4 @@
-package com.r0ngsh3n.simplesparketl.filewatcher.config;
+package com.r0ngsh3n.simplesparketl.job.config;
 
 //import com.fasterxml.jackson.core.JsonProcessingException;
 //import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,9 +20,19 @@ import java.util.Map;
 @AllArgsConstructor
 @Setter
 @Getter
-public class SimpleSparkEtlFilWatcherConfig {
+public class SimpleSparkEtlJobConfig {
     private List<SourceConfig> sources;
     private SparkConfig sparkConfig;
+    private CacheConfig cacheConfig;
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CacheConfig{
+        private String serviceURL;
+        private String networkAddr;
+    }
 
     @Data
     @Builder
@@ -72,15 +82,15 @@ public class SimpleSparkEtlFilWatcherConfig {
         private String destinationDir;
 
         @Optional
-        private String DestinationFilePattern;
+        private String destinationFilePattern;
 
         @Optional
         private String destinationDB;
     }
 
-    public static SimpleSparkEtlFilWatcherConfig loadConfig(){
+    public static SimpleSparkEtlJobConfig loadConfig(){
         Config config = ConfigFactory.load();
-        SimpleSparkEtlFilWatcherConfig simpleSparkEtlFilWatcherConfig = ConfigBeanFactory.create(config, SimpleSparkEtlFilWatcherConfig.class);
+        SimpleSparkEtlJobConfig simpleSparkEtlJobConfig = ConfigBeanFactory.create(config, SimpleSparkEtlJobConfig.class);
 
 //        try {
 //            log.info("{}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(simpleSparkEtlFilWatcherConfig));
@@ -88,6 +98,6 @@ public class SimpleSparkEtlFilWatcherConfig {
 //            throw new RuntimeException(e);
 //        }
 
-        return simpleSparkEtlFilWatcherConfig;
+        return simpleSparkEtlJobConfig;
     }
 }

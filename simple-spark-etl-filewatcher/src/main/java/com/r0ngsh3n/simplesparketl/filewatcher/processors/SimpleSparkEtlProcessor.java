@@ -1,6 +1,6 @@
 package com.r0ngsh3n.simplesparketl.filewatcher.processors;
 
-import com.r0ngsh3n.simplesparketl.filewatcher.config.SimpleSparkEtlFilWatcherConfig;
+import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
 import com.r0ngsh3n.simplesparketl.job.core.submitter.SparkSubmitter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,15 +15,15 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class SimpleSparkEtlProcessor {
-    private final SimpleSparkEtlFilWatcherConfig simpleSparkEtlFilWatcherConfig;
+    private final SimpleSparkEtlJobConfig simpleSparkEtlJobConfig;
     private final ReentrantLock lock;
     private final AtomicBoolean running;
     private ExecutorService executorService;
 
-    private final List<SimpleSparkEtlFilWatcherConfig.SourceConfig> extractConfigDirectoryList;
+    private final List<SimpleSparkEtlJobConfig.SourceConfig> extractConfigDirectoryList;
 
-    public SimpleSparkEtlProcessor(SimpleSparkEtlFilWatcherConfig config) {
-        this.simpleSparkEtlFilWatcherConfig = config;
+    public SimpleSparkEtlProcessor(SimpleSparkEtlJobConfig config) {
+        this.simpleSparkEtlJobConfig = config;
         this.lock = new ReentrantLock();
         this.running = new AtomicBoolean(true);
         this.extractConfigDirectoryList = config.getSources();
@@ -40,13 +40,13 @@ public class SimpleSparkEtlProcessor {
      **/
 
     private Function<String, CompletableFuture<String>> createSparkProcessor() {
-        SparkSubmitter sparkSubmitter = new SparkSubmitter(this.simpleSparkEtlFilWatcherConfig.getSparkConfig());
+        SparkSubmitter sparkSubmitter = new SparkSubmitter(this.simpleSparkEtlJobConfig);
         return dataFile -> sparkSubmitter.submit(dataFile);
     }
 
     public void run() {
         running.set(true);
-        Lock lock = locks.apply(simpleSparkEtlFilWatcherConfig);
+//        Lock lock = locks.apply(simpleSparkEtlJobConfig);
 
         try {
             log.info("start watching folder... {}", Thread.currentThread().getName());

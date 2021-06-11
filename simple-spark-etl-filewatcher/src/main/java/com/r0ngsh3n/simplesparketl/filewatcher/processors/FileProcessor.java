@@ -1,6 +1,6 @@
 package com.r0ngsh3n.simplesparketl.filewatcher.processors;
 
-import com.r0ngsh3n.simplesparketl.filewatcher.config.SimpleSparkEtlFilWatcherConfig;
+import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
@@ -26,7 +26,7 @@ public class FileProcessor {
 
     private Function<String, CompletableFuture<String>> fileHandler;
 
-    public FileProcessor(SimpleSparkEtlFilWatcherConfig.SourceConfig sourceConfig, Function<String, CompletableFuture<String>> fileHandler){
+    public FileProcessor(SimpleSparkEtlJobConfig.SourceConfig sourceConfig, Function<String, CompletableFuture<String>> fileHandler){
         this.fileHandler = fileHandler;
         this.directory = sourceConfig.getDirectory();
         this.filePattern = Pattern.compile(sourceConfig.getFilePattern());

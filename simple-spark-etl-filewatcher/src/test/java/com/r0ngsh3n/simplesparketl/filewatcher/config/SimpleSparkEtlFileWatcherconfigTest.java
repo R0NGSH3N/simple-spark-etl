@@ -1,7 +1,7 @@
 package com.r0ngsh3n.simplesparketl.filewatcher.config;
 
 import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.util.List;
 

@@ -13,7 +13,7 @@ public class SimpleSparkEtlFileWatcherconfigTest {
     @Test
     public void testLoadConfig(){
         SimpleSparkEtlJobConfig simpleSparkEtlJobConfig = SimpleSparkEtlJobConfig.loadConfig();
-        List<SimpleSparkEtlJobConfig.SourceConfig> sourceConfigs = simpleSparkEtlJobConfig.getSources();
+        List<SimpleSparkEtlJobConfig.SourceConfig> sourceConfigs = simpleSparkEtlJobConfig.getSourceConfigs();
         SimpleSparkEtlJobConfig.SparkConfig sparkConfig = simpleSparkEtlJobConfig.getSparkConfig();
         SimpleSparkEtlJobConfig.CacheConfig cacheConfig = simpleSparkEtlJobConfig.getCacheConfig();
 

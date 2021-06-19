@@ -26,7 +26,7 @@ public class SimpleSparkEtlProcessor {
         this.simpleSparkEtlJobConfig = config;
         this.lock = new ReentrantLock();
         this.running = new AtomicBoolean(true);
-        this.extractConfigDirectoryList = config.getSources();
+        this.extractConfigDirectoryList = config.getSourceConfigs();
     }
 
     /**
@@ -53,11 +53,13 @@ public class SimpleSparkEtlProcessor {
 
             while (running.get()) {
                 if (acquireLock(lock)) {
-                    extractConfigDirectoryList.stream().map(sourceConfig -> CompletableFuture.runAsync(() -> {
+                    List<Void> results = extractConfigDirectoryList.stream().map(sourceConfig -> CompletableFuture.runAsync(() -> {
+
                         Function<String, CompletableFuture<String>> sparkSubmitter = createSparkProcessor();
                         FileProcessor fileProcessor = new FileProcessor(sourceConfig, sparkSubmitter);
                         fileProcessor.process();
-                    }, executorService)).collect(Collectors.toList()).stream().map(CompletableFuture::join).collect(Collectors.toList());
+
+                    }, executorService)).map(CompletableFuture::join).collect(Collectors.toList());
 
 //                    CompletableFuture[] futures = extractConfigDirectoryList.stream().map(this::start)
 //                            .toArray(CompletableFuture[]::new);

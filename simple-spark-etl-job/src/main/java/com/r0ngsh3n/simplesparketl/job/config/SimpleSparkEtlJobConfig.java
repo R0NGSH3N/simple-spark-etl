@@ -6,17 +6,12 @@ package com.r0ngsh3n.simplesparketl.job.config;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigBeanFactory;
-import com.typesafe.config.ConfigFactory;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import com.typesafe.config.Optional;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -29,7 +24,7 @@ import java.util.Objects;
 @Setter
 @Getter
 public class SimpleSparkEtlJobConfig {
-    private List<SourceConfig> sources;
+    private List<SourceConfig> sourceConfigs;
     private SparkConfig sparkConfig;
     private CacheConfig cacheConfig;
 
@@ -105,7 +100,7 @@ public class SimpleSparkEtlJobConfig {
 
         SimpleSparkEtlJobConfig simpleSparkEtlJobConfig = SimpleSparkEtlJobConfig.builder().build();
 
-        simpleSparkEtlJobConfig.sources = gson.fromJson(jsonObject.get("sourceConfig"), new TypeToken<List<SourceConfig>>(){}.getType());
+        simpleSparkEtlJobConfig.sourceConfigs = gson.fromJson(jsonObject.get("sourceConfig"), new TypeToken<List<SourceConfig>>(){}.getType());
         simpleSparkEtlJobConfig.sparkConfig = gson.fromJson(jsonObject.get("sparkConfig"), SparkConfig.class);
         simpleSparkEtlJobConfig.cacheConfig = gson.fromJson(jsonObject.get("cacheConfig"),CacheConfig.class);
 

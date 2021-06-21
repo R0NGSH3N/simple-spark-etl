@@ -18,7 +18,6 @@ public class SimpleSparkEtlProcessorTest {
 
         SimpleSparkEtlProcessor spy = spy(processor);
         doNothing().when(spy).runJob(null);
-
         spy.run();
     }
 

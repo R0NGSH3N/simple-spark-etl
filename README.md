@@ -50,11 +50,18 @@ This project use typesafe package for configuration and use multiple threads to 
 
 ### Filewatcher Configuration
 
-The Filewatcher use `typesafe` package, the reason is `typesafe` support json format config file which is better strucuture than normal properties type of config file.
+The Filewatcher config is `SimpleSparkEtlJobConfig`, it consist of 3 configurations:
+
+~~~java
+    private List<SourceConfig> sourceConfigs;
+    private SparkConfig sparkConfig;
+    private CacheConfig cacheConfig;
+~~~
 
 The configuration contains:
 
-1. Job Configuration
+1. List of `SourceConfig` define the list of directories that file watcher will monitoring on, each `SourceConfig` contains
+
    - Source Configuration: source file directory, source file pattern, polling time etc
    - Destination DB configuration: JDBC url, table name, username & password etc
   

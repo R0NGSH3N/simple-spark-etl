@@ -1,22 +1,20 @@
 package com.r0ngsh3n.simplesparketl.filewatcher.processors;
 
-import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
-import com.r0ngsh3n.simplesparketl.job.core.submitter.SparkSubmitter;
-import lombok.Getter;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-
-import java.sql.Time;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
+import com.r0ngsh3n.simplesparketl.job.core.submitter.SparkSubmitter;
+
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter

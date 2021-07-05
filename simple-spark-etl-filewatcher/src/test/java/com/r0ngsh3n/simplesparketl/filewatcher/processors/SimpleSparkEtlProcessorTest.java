@@ -1,15 +1,15 @@
 package com.r0ngsh3n.simplesparketl.filewatcher.processors;
 
-import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.spy;
 
+import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
+
+import org.junit.Test;
+
 public class SimpleSparkEtlProcessorTest {
 
-    @Test
     public void testRun(){
 
         SimpleSparkEtlJobConfig simpleSparkEtlJobConfig = SimpleSparkEtlJobConfig.loadConfig();

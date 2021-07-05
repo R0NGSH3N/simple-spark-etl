@@ -1,14 +1,16 @@
 package com.r0ngsh3n.simplesparketl.filewatcher.config;
 
-import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
-import org.testng.annotations.Test;
-
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.List;
+
+import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
+
+import org.junit.Test;
+
 public class SimpleSparkEtlFileWatcherconfigTest {
+
 
     @Test
     public void testLoadConfig(){

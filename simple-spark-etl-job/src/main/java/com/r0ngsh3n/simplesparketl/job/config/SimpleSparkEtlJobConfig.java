@@ -1,20 +1,24 @@
 package com.r0ngsh3n.simplesparketl.job.config;
 
-//import com.fasterxml.jackson.core.JsonProcessingException;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.r0ngsh3n.simplesparketl.job.config.SparkConfig;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
-import com.typesafe.config.Optional;
-
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import com.typesafe.config.Optional;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 @Data
 @Builder
@@ -32,7 +36,7 @@ public class SimpleSparkEtlJobConfig {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CacheConfig{
+    public static class CacheConfig {
         private String serviceURL;
         private String networkAddr;
     }
@@ -41,7 +45,7 @@ public class SimpleSparkEtlJobConfig {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class SparkConfig{
+    public static class SparkConfig {
         private String home;
         private String master;
         private String jobName;
@@ -69,6 +73,7 @@ public class SimpleSparkEtlJobConfig {
         private int getSparkRetryCount;
 
     }
+
     @Data
     @Builder(toBuilder = true)
     @NoArgsConstructor
@@ -79,7 +84,7 @@ public class SimpleSparkEtlJobConfig {
         @Optional
         private long pollInSeconds;
         private String filePattern;
-//        private String dataConfigYaml;
+        // private String dataConfigYaml;
 
         @Optional
         private String destinationDir;
@@ -92,17 +97,23 @@ public class SimpleSparkEtlJobConfig {
     }
 
     @SneakyThrows
-    public static SimpleSparkEtlJobConfig loadConfig(){
+    public static SimpleSparkEtlJobConfig loadConfig() {
         Gson gson = new Gson();
-        Reader reader = new InputStreamReader(Objects.requireNonNull(SimpleSparkEtlJobConfig.class.getResourceAsStream("/application.conf"), "Reading application.conf is Null."));
-//        Reader reader = Files.newBufferedReader(Paths.get(configFilePath));
+        Reader reader = new InputStreamReader(
+                Objects.requireNonNull(SimpleSparkEtlJobConfig.class.getResourceAsStream("/application.conf"),
+                        "Reading application.conf is Null."));
+
+        // Reader reader = Files.newBufferedReader(Paths.get(configFilePath));
         JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
         SimpleSparkEtlJobConfig simpleSparkEtlJobConfig = SimpleSparkEtlJobConfig.builder().build();
 
-        simpleSparkEtlJobConfig.sourceConfigs = gson.fromJson(jsonObject.get("sourceConfig"), new TypeToken<List<SourceConfig>>(){}.getType());
+        simpleSparkEtlJobConfig.sourceConfigs = gson.fromJson(jsonObject.get("sourceConfig"),
+                new TypeToken<List<SourceConfig>>() {
+                }.getType());
+
         simpleSparkEtlJobConfig.sparkConfig = gson.fromJson(jsonObject.get("sparkConfig"), SparkConfig.class);
-        simpleSparkEtlJobConfig.cacheConfig = gson.fromJson(jsonObject.get("cacheConfig"),CacheConfig.class);
+        simpleSparkEtlJobConfig.cacheConfig = gson.fromJson(jsonObject.get("cacheConfig"), CacheConfig.class);
 
         return simpleSparkEtlJobConfig;
     }

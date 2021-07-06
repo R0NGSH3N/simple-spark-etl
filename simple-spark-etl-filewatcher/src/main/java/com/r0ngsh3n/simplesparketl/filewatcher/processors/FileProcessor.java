@@ -1,5 +1,9 @@
 package com.r0ngsh3n.simplesparketl.filewatcher.processors;
 
+import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,12 +17,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
-import com.r0ngsh3n.simplesparketl.job.config.SimpleSparkEtlJobConfig;
-
-import org.apache.commons.io.FileUtils;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class FileProcessor {

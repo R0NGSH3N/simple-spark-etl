@@ -10,6 +10,7 @@ import org.junit.Test;
 
 public class SimpleSparkEtlProcessorTest {
 
+    @Test
     public void testRun(){
 
         SimpleSparkEtlJobConfig simpleSparkEtlJobConfig = SimpleSparkEtlJobConfig.loadConfig();
